@@ -11,6 +11,10 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 
+	_ "github.com/huhuhu0420/ads-service/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	_ "github.com/lib/pq"
 )
 
@@ -30,11 +34,11 @@ func HandlHeaders() gin.HandlerFunc {
 	}
 }
 
-// @title Advertising ServiceAPI
-// @version 1.0
-// @description This is a simple advertising service API
-// @host localhost:5000
-// @BasePath /api/v1
+//	@title			Advertising ServiceAPI
+//	@version		1.0
+//	@description	This is a simple advertising service API
+//	@host			localhost:5000
+//	@BasePath		/api/v1
 
 func main() {
 	logrus.SetReportCaller(true)
@@ -67,6 +71,9 @@ func main() {
 
 	r := gin.Default()
 	r.Use(cors.Default(), HandlHeaders())
+
+	// use ginSwagger middleware to serve the API docs
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	logrus.Fatal(r.Run(restfulHost + ":" + restfulPort))
 }
