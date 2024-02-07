@@ -1,0 +1,9 @@
+basePath: /api/v1
+host: localhost:5000
+info:
+  contact: {}
+  description: This is a simple advertising service API
+  title: Advertising ServiceAPI
+  version: "1.0"
+paths: {}
+swagger: "2.0"

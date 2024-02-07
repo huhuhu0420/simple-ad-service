@@ -30,6 +30,12 @@ func HandlHeaders() gin.HandlerFunc {
 	}
 }
 
+// @title Advertising ServiceAPI
+// @version 1.0
+// @description This is a simple advertising service API
+// @host localhost:5000
+// @BasePath /api/v1
+
 func main() {
 	logrus.SetReportCaller(true)
 
