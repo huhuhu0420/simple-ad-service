@@ -15,9 +15,85 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/ads": {
+        "/ad": {
+            "get": {
+                "description": "Get ad array by query",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ads"
+                ],
+                "summary": "Get ad array by query",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "description": "Age",
+                        "name": "age",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "M",
+                            "F"
+                        ],
+                        "type": "string",
+                        "description": "Gender",
+                        "name": "Gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Country",
+                        "name": "Country",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "Android",
+                            "iOS",
+                            "Web"
+                        ],
+                        "type": "string",
+                        "description": "Platform",
+                        "name": "Platform",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.AdsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
             "post": {
-                "description": "Create a new ad",
+                "description": "Create a new ad, the conditions are optional",
                 "consumes": [
                     "application/json"
                 ],
@@ -35,16 +111,19 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Ad"
+                            "$ref": "#/definitions/domain.AdInfo"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/domain.Ad"
-                        }
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -52,18 +131,62 @@ const docTemplate = `{
     },
     "definitions": {
         "domain.Ad": {
+            "description": "A brief advertisement information",
             "type": "object",
             "properties": {
-                "content": {
+                "endAt": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.AdInfo": {
+            "description": "An advertisement information",
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "$ref": "#/definitions/domain.Conditions"
                 },
-                "price": {
-                    "type": "integer"
+                "endAt": {
+                    "type": "string"
+                },
+                "startAt": {
+                    "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.AdsResponse": {
+            "description": "The response structure containing multiple ads",
+            "type": "object",
+            "properties": {
+                "items": {
+                    "description": "An array of ads",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Ad"
+                    }
+                }
+            }
+        },
+        "domain.Conditions": {
+            "description": "The conditions for getting ads",
+            "type": "object",
+            "properties": {
+                "ageEnd": {
+                    "type": "integer"
+                },
+                "ageStart": {
+                    "type": "integer"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "platform": {
                     "type": "string"
                 }
             }

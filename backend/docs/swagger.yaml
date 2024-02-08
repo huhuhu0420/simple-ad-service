@@ -1,14 +1,44 @@
 basePath: /api/v1
 definitions:
   domain.Ad:
+    description: A brief advertisement information
     properties:
-      content:
+      endAt:
         type: string
-      id:
-        type: integer
-      price:
-        type: integer
       title:
+        type: string
+    type: object
+  domain.AdInfo:
+    description: An advertisement information
+    properties:
+      conditions:
+        $ref: '#/definitions/domain.Conditions'
+      endAt:
+        type: string
+      startAt:
+        type: string
+      title:
+        type: string
+    type: object
+  domain.AdsResponse:
+    description: The response structure containing multiple ads
+    properties:
+      items:
+        description: An array of ads
+        items:
+          $ref: '#/definitions/domain.Ad'
+        type: array
+    type: object
+  domain.Conditions:
+    description: The conditions for getting ads
+    properties:
+      ageEnd:
+        type: integer
+      ageStart:
+        type: integer
+      country:
+        type: string
+      platform:
         type: string
     type: object
 host: localhost:5000
@@ -18,25 +48,79 @@ info:
   title: Advertising ServiceAPI
   version: "1.0"
 paths:
-  /ads:
-    post:
+  /ad:
+    get:
       consumes:
       - application/json
-      description: Create a new ad
+      description: Get ad array by query
       parameters:
-      - description: Ad object that needs to be added
-        in: body
-        name: ad
-        required: true
-        schema:
-          $ref: '#/definitions/domain.Ad'
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Age
+        in: query
+        maximum: 100
+        minimum: 1
+        name: age
+        type: integer
+      - description: Gender
+        enum:
+        - M
+        - F
+        in: query
+        name: Gender
+        type: string
+      - description: Country
+        in: query
+        name: Country
+        type: string
+      - description: Platform
+        enum:
+        - Android
+        - iOS
+        - Web
+        in: query
+        name: Platform
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Ad'
+            $ref: '#/definitions/domain.AdsResponse'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get ad array by query
+      tags:
+      - ads
+    post:
+      consumes:
+      - application/json
+      description: Create a new ad, the conditions are optional
+      parameters:
+      - description: Ad object that needs to be added
+        in: body
+        name: ad
+        required: true
+        schema:
+          $ref: '#/definitions/domain.AdInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
       summary: Create a new ad
       tags:
       - ads
