@@ -32,3 +32,13 @@ type AdInfo struct {
 	EndAt      string     `json:"endAt"`
 	Conditions Conditions `json:"conditions,omitempty"`
 }
+
+type AdService interface {
+	CreateAd(ad AdInfo) error
+	GetAd(conditions Conditions) (AdsResponse, error)
+}
+
+type AdRepository interface {
+	CreateAd(ad AdInfo) error
+	GetAd(conditions Conditions) (AdsResponse, error)
+}
