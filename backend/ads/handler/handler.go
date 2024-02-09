@@ -8,6 +8,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type AdHandler struct {
+	service domain.AdService
+}
+
+func NewAdHandler(e *gin.Engine, service domain.AdService) {
+	handler := &AdHandler{
+		service: service,
+	}
+
+	v1 := e.Group("/api/v1")
+	{
+		v1.POST("/ad", handler.CreateAd)
+		v1.GET("/ad", handler.GetAd)
+	}
+}
+
 // CreateAd godoc
 //
 //	@Summary		Create a new ad
@@ -20,7 +36,7 @@ import (
 //	@Failure		400
 //	@Failure		500
 //	@Router			/ad [post]
-func CreateAd(c *gin.Context) {
+func (ah *AdHandler) CreateAd(c *gin.Context) {
 	var ad domain.Ad
 	if err := c.ShouldBindJSON(&ad); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -47,7 +63,7 @@ func CreateAd(c *gin.Context) {
 //	@Failure		400
 //	@Failure		500
 //	@Router			/ad [get]
-func GetAd(c *gin.Context) {
+func (ah *AdHandler) GetAd(c *gin.Context) {
 	var ad domain.Ad
 	if err := c.ShouldBindJSON(&ad); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

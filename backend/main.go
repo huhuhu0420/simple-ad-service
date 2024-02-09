@@ -15,6 +15,10 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+	_adHandler "github.com/huhuhu0420/ads-service/ads/handler"
+	_adRepository "github.com/huhuhu0420/ads-service/ads/repository"
+	_adService "github.com/huhuhu0420/ads-service/ads/service"
+
 	_ "github.com/lib/pq"
 )
 
@@ -74,6 +78,10 @@ func main() {
 
 	// use ginSwagger middleware to serve the API docs
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	adRepo := _adRepository.NewAdRepository(db)
+	adService := _adService.NewAdService(adRepo)
+	_adHandler.NewAdHandler(r, adService)
 
 	logrus.Fatal(r.Run(restfulHost + ":" + restfulPort))
 }
