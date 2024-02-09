@@ -10,10 +10,10 @@ func NewAdService(repo domain.AdRepository) domain.AdService {
 	return &adService{repo}
 }
 
-func (s *adService) CreateAd(ad domain.AdInfo) error {
-	return s.repo.CreateAd(ad)
+func (s *adService) CreateAd(ad domain.AdInfo, conditions domain.Conditions) error {
+	return s.repo.CreateAd(ad, conditions)
 }
 
-func (s *adService) GetAd(conditions domain.Conditions) (domain.AdsResponse, error) {
-	return s.repo.GetAd(conditions)
+func (s *adService) GetAd(searchAdRequest domain.SearchAdRequest) (domain.AdsResponse, error) {
+	return s.repo.GetAd(searchAdRequest)
 }

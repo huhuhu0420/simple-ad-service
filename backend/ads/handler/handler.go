@@ -9,12 +9,12 @@ import (
 )
 
 type AdHandler struct {
-	service domain.AdService
+	Service domain.AdService
 }
 
 func NewAdHandler(e *gin.Engine, service domain.AdService) {
 	handler := &AdHandler{
-		service: service,
+		Service: service,
 	}
 
 	v1 := e.Group("/api/v1")
@@ -64,11 +64,15 @@ func (ah *AdHandler) CreateAd(c *gin.Context) {
 //	@Failure		500
 //	@Router			/ad [get]
 func (ah *AdHandler) GetAd(c *gin.Context) {
-	var ad domain.Ad
-	if err := c.ShouldBindJSON(&ad); err != nil {
+	var searchAdRequest domain.SearchAdRequest
+	if err := c.ShouldBindQuery(&searchAdRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, ad)
+	adResponse, err := ah.Service.GetAd(searchAdRequest)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, adResponse)
 }

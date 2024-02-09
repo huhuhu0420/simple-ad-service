@@ -1,6 +1,8 @@
 package domain
 
-import _ "github.com/huhuhu0420/ads-service/docs"
+import (
+	_ "github.com/huhuhu0420/ads-service/docs"
+)
 
 // Ad represents an advertisement information
 // @Description A brief advertisement information
@@ -33,12 +35,23 @@ type AdInfo struct {
 	Conditions Conditions `json:"conditions,omitempty"`
 }
 
+// SearchAdRequest represents the request structure for searching ads
+// @Description The request structure for searching ads
+type SearchAdRequest struct {
+	Offset   int    `json:"offset"`
+	Limit    int    `json:"limit"`
+	Age      int    `json:"age"`
+	Gender   string `json:"gender"`
+	Country  string `json:"country"`
+	Platform string `json:"platform"`
+}
+
 type AdService interface {
-	CreateAd(ad AdInfo) error
-	GetAd(conditions Conditions) (AdsResponse, error)
+	CreateAd(ad AdInfo, conditions Conditions) error
+	GetAd(searchAdRequest SearchAdRequest) (AdsResponse, error)
 }
 
 type AdRepository interface {
-	CreateAd(ad AdInfo) error
-	GetAd(conditions Conditions) (AdsResponse, error)
+	CreateAd(ad AdInfo, conditions Conditions) error
+	GetAd(searchAdRequest SearchAdRequest) (AdsResponse, error)
 }
