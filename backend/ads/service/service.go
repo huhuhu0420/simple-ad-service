@@ -1,6 +1,6 @@
 package service
 
-import "github.com/huhuhu0420/ads-service/domain"
+import "github.com/huhuhu0420/simple-ad-service/domain"
 
 type adService struct {
 	repo domain.AdRepository

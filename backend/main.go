@@ -11,13 +11,13 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 
-	_ "github.com/huhuhu0420/ads-service/docs"
+	_ "github.com/huhuhu0420/simple-ad-service/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_adHandler "github.com/huhuhu0420/ads-service/ads/handler"
-	_adRepository "github.com/huhuhu0420/ads-service/ads/repository"
-	_adService "github.com/huhuhu0420/ads-service/ads/service"
+	_adHandler "github.com/huhuhu0420/simple-ad-service/ads/handler"
+	_adRepository "github.com/huhuhu0420/simple-ad-service/ads/repository"
+	_adService "github.com/huhuhu0420/simple-ad-service/ads/service"
 
 	_ "github.com/lib/pq"
 )

@@ -1,7 +1,7 @@
 package domain
 
 import (
-	_ "github.com/huhuhu0420/ads-service/docs"
+	_ "github.com/huhuhu0420/simple-ad-service/docs"
 )
 
 // Ad represents an advertisement information

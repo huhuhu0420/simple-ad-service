@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/huhuhu0420/ads-service/domain"
+	"github.com/huhuhu0420/simple-ad-service/domain"
 )
 
 type adRepository struct {

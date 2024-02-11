@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/huhuhu0420/ads-service/domain"
+	"github.com/huhuhu0420/simple-ad-service/domain"
 
 	"github.com/gin-gonic/gin"
 )

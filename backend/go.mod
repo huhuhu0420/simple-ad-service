@@ -1,4 +1,4 @@
-module github.com/huhuhu0420/ads-service
+module github.com/huhuhu0420/simple-ad-service
 
 go 1.21.7
 
