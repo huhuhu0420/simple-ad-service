@@ -5,10 +5,10 @@ CREATE TABLE ads (
     end_at TIMESTAMP NOT NULL CHECK (end_at > start_at)
 );
 
-CREATE TABLE conditions (
-    ad_id INTEGER REFERENCES ads(id) ON DELETE CASCADE,
-    age_start INTEGER CHECK (age_start >= 1),
-    age_end INTEGER CHECK (age_end >= 1 AND age_end >= age_start),
+CREATE TABLE ad_ages (
+    ad_id INTEGER REFERENCES ads(id),
+    age_start INTEGER CHECK (age_start >= 1 AND age_start <= 99),
+    age_end INTEGER CHECK (age_end >= 1 AND age_end <= 99 AND age_end >= age_start),
     PRIMARY KEY (ad_id)
 );
 

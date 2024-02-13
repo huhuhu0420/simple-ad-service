@@ -255,7 +255,7 @@ INSERT INTO ADS (title, start_at, end_at) VALUES
 ('Ad 2', '2023-01-01 00:00:00', '2023-05-31 23:59:59'),
 ('Ad 3', '2023-06-01 00:00:00', '2023-12-31 23:59:59');
 
-INSERT INTO conditions (ad_id, age_start, age_end) VALUES
+INSERT INTO ad_ages (ad_id, age_start, age_end) VALUES
 (2, 1, 18),
 (3, 18, 45);
 
