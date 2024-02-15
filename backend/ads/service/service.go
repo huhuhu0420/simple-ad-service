@@ -14,6 +14,6 @@ func (s *adService) CreateAd(ad domain.AdInfo, conditions domain.Conditions) err
 	return s.repo.CreateAd(ad, conditions)
 }
 
-func (s *adService) GetAd(searchAdRequest domain.SearchAdRequest) (domain.AdsResponse, error) {
+func (s *adService) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
 	return s.repo.GetAd(searchAdRequest)
 }

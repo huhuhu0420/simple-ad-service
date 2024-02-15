@@ -48,10 +48,10 @@ type SearchAdRequest struct {
 
 type AdService interface {
 	CreateAd(ad AdInfo, conditions Conditions) error
-	GetAd(searchAdRequest SearchAdRequest) (AdsResponse, error)
+	GetAd(searchAdRequest SearchAdRequest) (*AdsResponse, error)
 }
 
 type AdRepository interface {
 	CreateAd(ad AdInfo, conditions Conditions) error
-	GetAd(searchAdRequest SearchAdRequest) (AdsResponse, error)
+	GetAd(searchAdRequest SearchAdRequest) (*AdsResponse, error)
 }
