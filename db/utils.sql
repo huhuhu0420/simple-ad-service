@@ -7,12 +7,12 @@ CREATE OR REPLACE FUNCTION get_ads(
     p_country CHAR(2) DEFAULT NULL,
     p_platform VARCHAR DEFAULT NULL
 )
-RETURNS TABLE(id INTEGER, title VARCHAR, start_at TIMESTAMP, end_at TIMESTAMP) AS $$
+RETURNS TABLE(title VARCHAR, end_at TIMESTAMP) AS $$
 DECLARE
     v_sql TEXT;
 BEGIN
     -- Base FROM clause
-    v_sql := 'SELECT DISTINCT a.id, a.title, a.start_at, a.end_at FROM ads a ';
+    v_sql := 'SELECT DISTINCT a.title, a.end_at FROM ads a ';
 
     -- Conditionally append joins
     IF p_age != 0 THEN

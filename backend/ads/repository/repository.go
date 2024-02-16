@@ -23,7 +23,7 @@ func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.Ad
 	adsResponse := &domain.AdsResponse{}
 	ad := &domain.Ad{}
 
-	sqlStatement := `SELECT get_ads($1, $2, $3, $4, $5, %6)`
+	sqlStatement := `SELECT title, end_at FROM get_ads($1, $2, $3, $4, $5, $6)`
 	rows, err := r.db.Query(sqlStatement, searchAdRequest.Offset, searchAdRequest.Limit, searchAdRequest.Age,
 		searchAdRequest.Gender, searchAdRequest.Country, searchAdRequest.Platform)
 	if err != nil {
@@ -37,6 +37,7 @@ func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.Ad
 			logrus.Error(err)
 			return nil, err
 		}
+		adsResponse.Items = append(adsResponse.Items, *ad)
 	}
 
 	return adsResponse, nil
