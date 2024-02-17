@@ -37,9 +37,13 @@ definitions:
       ageStart:
         type: integer
       country:
-        type: string
+        items:
+          type: string
+        type: array
       platform:
-        type: string
+        items:
+          type: string
+        type: array
     type: object
 host: localhost:5000
 info:

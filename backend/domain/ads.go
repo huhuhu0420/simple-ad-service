@@ -20,10 +20,10 @@ type AdsResponse struct {
 // Conditions represents the conditions for getting ads
 // @Description The conditions for getting ads
 type Conditions struct {
-	AgeStart int    `json:"ageStart"`
-	AgeEnd   int    `json:"ageEnd"`
-	Country  string `json:"country"`
-	Platform string `json:"platform"`
+	AgeStart int      `json:"ageStart"`
+	AgeEnd   int      `json:"ageEnd"`
+	Country  []string `json:"country"`
+	Platform []string `json:"platform"`
 }
 
 // AdInfo represents an advertisement information

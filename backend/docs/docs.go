@@ -184,10 +184,16 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "country": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "platform": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }
