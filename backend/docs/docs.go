@@ -32,13 +32,13 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "Offset",
-                        "name": "offset",
+                        "name": "Offset",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "Limit",
-                        "name": "limit",
+                        "name": "Limit",
                         "in": "query"
                     },
                     {
@@ -46,7 +46,7 @@ const docTemplate = `{
                         "minimum": 1,
                         "type": "integer",
                         "description": "Age",
-                        "name": "age",
+                        "name": "Age",
                         "in": "query"
                     },
                     {

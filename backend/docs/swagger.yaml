@@ -56,17 +56,17 @@ paths:
       parameters:
       - description: Offset
         in: query
-        name: offset
+        name: Offset
         type: integer
       - description: Limit
         in: query
-        name: limit
+        name: Limit
         type: integer
       - description: Age
         in: query
         maximum: 100
         minimum: 1
-        name: age
+        name: Age
         type: integer
       - description: Gender
         enum:

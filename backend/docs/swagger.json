@@ -26,13 +26,13 @@
                     {
                         "type": "integer",
                         "description": "Offset",
-                        "name": "offset",
+                        "name": "Offset",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "Limit",
-                        "name": "limit",
+                        "name": "Limit",
                         "in": "query"
                     },
                     {
@@ -40,7 +40,7 @@
                         "minimum": 1,
                         "type": "integer",
                         "description": "Age",
-                        "name": "age",
+                        "name": "Age",
                         "in": "query"
                     },
                     {

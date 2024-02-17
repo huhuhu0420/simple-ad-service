@@ -53,9 +53,9 @@ func (ah *AdHandler) CreateAd(c *gin.Context) {
 //	@Tags			ads
 //	@Accept			json
 //	@Produce		json
-//	@Param			offset		query		int		false	"Offset"
-//	@Param			limit		query		int		false	"Limit"
-//	@Param			age			query		int		false	"Age"		minimum(1)	maximum(100)
+//	@Param			Offset		query		integer	false	"Offset"
+//	@Param			Limit		query		integer false	"Limit"
+//	@Param			Age			query		integer	false	"Age"		minimum(1)	maximum(100)
 //	@Param			Gender		query		string	false	"Gender"	Enums(M, F)
 //	@Param			Country		query		string	false	"Country"
 //	@Param			Platform	query		string	false	"Platform"	Enums(Android, iOS, Web)
