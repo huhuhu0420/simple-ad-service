@@ -129,28 +129,41 @@
             "type": "object",
             "properties": {
                 "endAt": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-12-01T00:00:00Z"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ad title"
                 }
             }
         },
         "domain.AdInfo": {
             "description": "An advertisement information",
             "type": "object",
+            "required": [
+                "endAt",
+                "startAt",
+                "title"
+            ],
             "properties": {
                 "conditions": {
                     "$ref": "#/definitions/domain.Conditions"
                 },
                 "endAt": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-12-01T00:00:00Z"
                 },
                 "startAt": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-01-01T00:00:00Z"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ad title"
                 }
             }
         },
@@ -172,22 +185,39 @@
             "type": "object",
             "properties": {
                 "ageEnd": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 65
                 },
                 "ageStart": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 18
                 },
                 "country": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "US"
+                    ]
+                },
+                "gender": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "M"
+                    ]
                 },
                 "platform": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "Android"
+                    ]
                 }
             }
         }

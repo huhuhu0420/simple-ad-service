@@ -4,8 +4,11 @@ definitions:
     description: A brief advertisement information
     properties:
       endAt:
+        example: "2023-12-01T00:00:00Z"
+        format: date-time
         type: string
       title:
+        example: Ad title
         type: string
     type: object
   domain.AdInfo:
@@ -14,11 +17,20 @@ definitions:
       conditions:
         $ref: '#/definitions/domain.Conditions'
       endAt:
+        example: "2023-12-01T00:00:00Z"
+        format: date-time
         type: string
       startAt:
+        example: "2023-01-01T00:00:00Z"
+        format: date-time
         type: string
       title:
+        example: Ad title
         type: string
+    required:
+    - endAt
+    - startAt
+    - title
     type: object
   domain.AdsResponse:
     description: The response structure containing multiple ads
@@ -33,14 +45,26 @@ definitions:
     description: The conditions for getting ads
     properties:
       ageEnd:
+        example: 65
         type: integer
       ageStart:
+        example: 18
         type: integer
       country:
+        example:
+        - US
+        items:
+          type: string
+        type: array
+      gender:
+        example:
+        - M
         items:
           type: string
         type: array
       platform:
+        example:
+        - Android
         items:
           type: string
         type: array
