@@ -55,5 +55,9 @@ type AdService interface {
 type AdRepository interface {
 	CreateAd(ad AdInfo, conditions Conditions) error
 	InsertNewAd(title string, startAt string, endAt string) (int, error)
+	InsertAgeRange(id int, ageStart int, ageEnd int) error
+	InsertCountry(id int, country []string) error
+	InsertPlatform(id int, platform []string) error
+	InsertGender(id int, gender []string) error
 	GetAd(searchAdRequest SearchAdRequest) (*AdsResponse, error)
 }

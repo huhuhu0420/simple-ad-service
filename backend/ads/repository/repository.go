@@ -30,6 +30,52 @@ func (r *adRepository) InsertNewAd(title string, startAt string, endAt string) (
 	return id, nil
 }
 
+func (r *adRepository) InsertAgeRange(id int, ageStart int, ageEnd int) error {
+	sqlStatement := `INSERT INTO ad_ages (ad_id, age_start, age_end) VALUES ($1, $2, $3)`
+	_, err := r.db.Exec(sqlStatement, id, ageStart, ageEnd)
+	if err != nil {
+		logrus.Error(err)
+		return err
+	}
+	return nil
+}
+
+func (r *adRepository) InsertCountry(id int, country []string) error {
+	sqlStatement := `INSERT INTO ad_countries (ad_id, country_code) VALUES ($1, $2)`
+	for _, c := range country {
+		_, err := r.db.Exec(sqlStatement, id, c)
+		if err != nil {
+			logrus.Error(err)
+			return err
+		}
+	}
+	return nil
+}
+
+func (r *adRepository) InsertPlatform(id int, platform []string) error {
+	sqlStatement := `INSERT INTO ad_platforms (ad_id, platform) VALUES ($1, $2)`
+	for _, p := range platform {
+		_, err := r.db.Exec(sqlStatement, id, p)
+		if err != nil {
+			logrus.Error(err)
+			return err
+		}
+	}
+	return nil
+}
+
+func (r *adRepository) InsertGender(id int, gender []string) error {
+	sqlStatement := `INSERT INTO ad_genders (ad_id, gender) VALUES ($1, $2)`
+	for _, g := range gender {
+		_, err := r.db.Exec(sqlStatement, id, g)
+		if err != nil {
+			logrus.Error(err)
+			return err
+		}
+	}
+	return nil
+}
+
 func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
 	adsResponse := &domain.AdsResponse{}
 	ad := &domain.Ad{}
