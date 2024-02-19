@@ -19,6 +19,17 @@ func (r *adRepository) CreateAd(ad domain.AdInfo, conditions domain.Conditions) 
 	return nil
 }
 
+func (r *adRepository) InsertNewAd(title string, startAt string, endAt string) (int, error) {
+	sqlStatement := `INSERT INTO ads (title, start_at, end_at) VALUES ($1, $2, $3) RETURNING id`
+	id := 0
+	err := r.db.QueryRow(sqlStatement, title, startAt, endAt).Scan(&id)
+	if err != nil {
+		logrus.Error(err)
+		return 0, err
+	}
+	return id, nil
+}
+
 func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
 	adsResponse := &domain.AdsResponse{}
 	ad := &domain.Ad{}
