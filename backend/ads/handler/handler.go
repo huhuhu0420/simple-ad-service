@@ -37,7 +37,7 @@ func NewAdHandler(e *gin.Engine, service domain.AdService) {
 //	@Failure		500
 //	@Router			/ad [post]
 func (ah *AdHandler) CreateAd(c *gin.Context) {
-	var ad domain.Ad
+	var ad domain.AdInfo
 	if err := c.ShouldBindJSON(&ad); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

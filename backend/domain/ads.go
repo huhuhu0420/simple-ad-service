@@ -24,6 +24,7 @@ type Conditions struct {
 	AgeEnd   int      `json:"ageEnd"`
 	Country  []string `json:"country"`
 	Platform []string `json:"platform"`
+	Gender   []string `json:"gender"`
 }
 
 // AdInfo represents an advertisement information
