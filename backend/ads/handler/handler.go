@@ -48,7 +48,7 @@ func (ah *AdHandler) CreateAd(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, ad)
+	c.Status(http.StatusOK)
 }
 
 // GetAd godoc

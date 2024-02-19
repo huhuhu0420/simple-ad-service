@@ -32,7 +32,7 @@ BEGIN
     END IF;
 
     -- WHERE clause starts
-    v_sql := v_sql || 'WHERE 1=1 ';
+    v_sql := v_sql || 'WHERE a.end_at > NOW() AND a.start_at < NOW() ';
 
     -- Conditionally append WHERE conditions
     IF p_age != 0 THEN

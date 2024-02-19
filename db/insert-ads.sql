@@ -252,8 +252,9 @@ INSERT INTO COUNTRIES (code) VALUES
 
 INSERT INTO ADS (title, start_at, end_at) VALUES
 ('Ad 1', '2024-01-01 00:00:00', '2024-12-31 23:59:59'),
-('Ad 2', '2023-01-01 00:00:00', '2023-05-31 23:59:59'),
-('Ad 3', '2023-06-01 00:00:00', '2023-12-31 23:59:59');
+('Ad 2', '2024-01-01 00:00:00', '2024-05-31 23:59:59'),
+('Ad 3', '2024-06-01 00:00:00', '2024-12-31 23:59:59'),
+('Ad 4', '2024-02-01 00:00:00', '2024-08-31 23:59:59');
 
 INSERT INTO ad_ages (ad_id, age_start, age_end) VALUES
 (2, 1, 18),
@@ -270,7 +271,8 @@ INSERT INTO ad_platforms (ad_id, platform) VALUES
 (2, 'iOS'),
 (2, 'Android'),
 (3, 'Android'),
-(3, 'Web');
+(3, 'Web'),
+(4, 'Web');
 
 INSERT INTO ad_genders (ad_id, gender) VALUES
 (2, 'M'),
