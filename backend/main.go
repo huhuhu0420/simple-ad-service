@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"os"
 
 	"github.com/gin-contrib/cors"
 
@@ -18,6 +17,7 @@ import (
 	_adHandler "github.com/huhuhu0420/simple-ad-service/ads/handler"
 	_adRepository "github.com/huhuhu0420/simple-ad-service/ads/repository"
 	_adService "github.com/huhuhu0420/simple-ad-service/ads/service"
+	"github.com/huhuhu0420/simple-ad-service/utils"
 
 	_ "github.com/lib/pq"
 )
@@ -57,25 +57,15 @@ func SetRouter() *gin.Engine {
 func main() {
 	logrus.SetReportCaller(true)
 
-	logrus.Info("HTTP server started!!!")
-
-	restfulHost := viper.GetString("RESTFUL_HOST")
-	restfulPort := viper.GetString("RESTFUL_PORT")
-	dbDatabase := viper.GetString("DB_DATABASE")
-	dbUser := viper.GetString("POSTGRES_USER")
-	dbPassword := viper.GetString("POSTGRES_PASSWORD")
-	dbHost := os.Getenv("DB_HOST")
-
-	// if go not run in docker, host will be localhost
-	if dbHost == "" {
-		dbHost = "localhost"
+	config, err := utils.LoadConfig("../")
+	if err != nil {
+		logrus.Fatal(err)
 	}
 
 	db, err := sql.Open(
 		"postgres",
-		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", dbHost, dbUser, dbPassword, dbDatabase),
+		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbDatabase),
 	)
-
 	if err != nil {
 		logrus.Fatal(err)
 	}
@@ -89,5 +79,6 @@ func main() {
 	adService := _adService.NewAdService(adRepo)
 	_adHandler.NewAdHandler(r, adService)
 
-	logrus.Fatal(r.Run(restfulHost + ":" + restfulPort))
+	logrus.Info("HTTP server started!!!")
+	logrus.Fatal(r.Run(config.RestfulHost + ":" + config.RestfulPort))
 }
