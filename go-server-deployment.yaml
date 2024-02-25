@@ -13,8 +13,7 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: go-server
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
@@ -25,30 +24,11 @@ spec:
         io.kompose.service: go-server
     spec:
       containers:
-        - command:
-            - go
-            - run
-            - main.go
-          env:
-            - name: PG_HOST
-              value: pgbouncer
-          image: go-server
+        - image: huhuhu0420/go-server:version0.1test
           name: go-server
           ports:
             - containerPort: 5000
           resources: {}
-          volumeMounts:
-            - mountPath: /app/server
-              name: go-server-claim0
-            - mountPath: /app/.env
-              name: go-server-claim1
-          workingDir: /app/server
+          workingDir: /app
       restartPolicy: Always
-      volumes:
-        - name: go-server-claim0
-          persistentVolumeClaim:
-            claimName: go-server-claim0
-        - name: go-server-claim1
-          persistentVolumeClaim:
-            claimName: go-server-claim1
 status: {}
