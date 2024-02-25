@@ -9,7 +9,7 @@ services:
       container_name: go-server
       working_dir: /app/server
       environment:
-        - DB_HOST=postgres-db
+        - PG_HOST=pgbouncer
       ports:
         - "5000:5000"
       volumes:
@@ -23,9 +23,17 @@ services:
     image: postgres:15.5-alpine3.18
     container_name: postgres-db
     restart: always
-    ports: 
-      - "5432:5432"
     env_file:
       - .env
     volumes:
       - ./db:/docker-entrypoint-initdb.d
+  pgbouncer:
+    image: edoburu/pgbouncer
+    container_name: pgbouncer
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    depends_on:
+      - postgres-db

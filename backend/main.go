@@ -54,7 +54,7 @@ func main() {
 
 	db, err := sql.Open(
 		"postgres",
-		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbDatabase),
+		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbName),
 	)
 	if err != nil {
 		logrus.Fatal(err)
