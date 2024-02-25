@@ -38,7 +38,7 @@ func HandlHeaders() gin.HandlerFunc {
 func main() {
 	logrus.SetReportCaller(true)
 
-	config, err := utils.LoadConfig("../")
+	config, err := utils.LoadConfig("./")
 	if err != nil {
 		logrus.Fatal(err)
 	}
