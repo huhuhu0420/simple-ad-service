@@ -1,7 +1,15 @@
 apiVersion: v1
 data:
-  DB_DATABASE: postgres
-  DB_HOST: localhost
+  ADMIN_USERS: postgres
+  AUTH_TYPE: scram-sha-256
+  DB_HOST: postgres-db
+  DB_NAME: postgres
+  DB_PASSWORD: pwd
+  DB_USER: postgres
+  MAX_CLIENT_CONN: "200"
+  PG_HOST: localhost
+  POOL_MODE: transaction
+  POSTGRES_DB: postgres
   POSTGRES_PASSWORD: pwd
   POSTGRES_USER: postgres
   RESTFUL_HOST: 0.0.0.0
@@ -10,5 +18,5 @@ kind: ConfigMap
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: postgres-db-env
+    io.kompose.service: pgbouncer-env
   name: env

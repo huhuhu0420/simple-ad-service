@@ -30,8 +30,8 @@ spec:
             - run
             - main.go
           env:
-            - name: DB_HOST
-              value: postgres-db
+            - name: PG_HOST
+              value: pgbouncer
           image: go-server
           name: go-server
           ports:
