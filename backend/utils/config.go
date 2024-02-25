@@ -16,8 +16,10 @@ type Config struct {
 
 func LoadConfig(path string) (*Config, error) {
 	viper.AddConfigPath(path)
+	viper.SetConfigName(".env")
 	viper.SetConfigType("dotenv")
 	viper.AutomaticEnv()
+	viper.ReadInConfig()
 
 	var cfg Config
 	err := viper.Unmarshal(&cfg)
