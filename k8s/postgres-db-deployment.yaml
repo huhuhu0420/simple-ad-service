@@ -1,110 +1,36 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.26.0 (40646f47)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: postgres-db
   name: postgres-db
+  labels:
+    app: postgres-db
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      io.kompose.service: postgres-db
-  strategy:
-    type: Recreate
+      app: postgres-db
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.26.0 (40646f47)
-      creationTimestamp: null
       labels:
-        io.kompose.service: postgres-db
+        app: postgres-db
     spec:
       containers:
-        - env:
-            - name: ADMIN_USERS
-              valueFrom:
-                configMapKeyRef:
-                  key: ADMIN_USERS
-                  name: env
-            - name: AUTH_TYPE
-              valueFrom:
-                configMapKeyRef:
-                  key: AUTH_TYPE
-                  name: env
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_HOST
-                  name: env
-            - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_NAME
-                  name: env
-            - name: DB_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_PASSWORD
-                  name: env
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_USER
-                  name: env
-            - name: MAX_CLIENT_CONN
-              valueFrom:
-                configMapKeyRef:
-                  key: MAX_CLIENT_CONN
-                  name: env
-            - name: PG_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: PG_HOST
-                  name: env
-            - name: POOL_MODE
-              valueFrom:
-                configMapKeyRef:
-                  key: POOL_MODE
-                  name: env
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_DB
-                  name: env
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_PASSWORD
-                  name: env
-            - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_USER
-                  name: env
-            - name: RESTFUL_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: RESTFUL_HOST
-                  name: env
-            - name: RESTFUL_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: RESTFUL_PORT
-                  name: env
-          image: postgres:15.5-alpine3.18
-          name: postgres-db
-          resources: {}
-          volumeMounts:
-            - mountPath: /docker-entrypoint-initdb.d
-              name: postgres-db-claim0
-      restartPolicy: Always
+      - name: postgres-db
+        image: postgres:15.5-alpine3.18
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: postgres-db-config
+        volumeMounts:
+        - name: postgres-db-initdb
+          mountPath: /docker-entrypoint-initdb.d
+        - name: postgres-pv-volume
+          mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgres-db-claim0
-          persistentVolumeClaim:
-            claimName: postgres-db-claim0
-status: {}
+      - name: postgres-pv-volume
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
+      - name: postgres-db-initdb
+        configMap:
+          name: postgres-db-initdb

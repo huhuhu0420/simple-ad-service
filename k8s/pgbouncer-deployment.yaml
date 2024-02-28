@@ -1,104 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.26.0 (40646f47)
-  creationTimestamp: null
   labels:
-    io.kompose.service: pgbouncer
+    app: pgbouncer
   name: pgbouncer
 spec:
-  replicas: 1
+  replicas: 10
   selector:
     matchLabels:
-      io.kompose.service: pgbouncer
-  strategy: {}
+      app: pgbouncer
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.26.0 (40646f47)
-      creationTimestamp: null
       labels:
-        io.kompose.service: pgbouncer
+        app: pgbouncer
     spec:
       containers:
-        - env:
-            - name: ADMIN_USERS
-              valueFrom:
-                configMapKeyRef:
-                  key: ADMIN_USERS
-                  name: env
-            - name: AUTH_TYPE
-              valueFrom:
-                configMapKeyRef:
-                  key: AUTH_TYPE
-                  name: env
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_HOST
-                  name: env
-            - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_NAME
-                  name: env
-            - name: DB_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_PASSWORD
-                  name: env
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: DB_USER
-                  name: env
-            - name: MAX_CLIENT_CONN
-              valueFrom:
-                configMapKeyRef:
-                  key: MAX_CLIENT_CONN
-                  name: env
-            - name: PG_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: PG_HOST
-                  name: env
-            - name: POOL_MODE
-              valueFrom:
-                configMapKeyRef:
-                  key: POOL_MODE
-                  name: env
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_DB
-                  name: env
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_PASSWORD
-                  name: env
-            - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_USER
-                  name: env
-            - name: RESTFUL_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: RESTFUL_HOST
-                  name: env
-            - name: RESTFUL_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: RESTFUL_PORT
-                  name: env
-          image: edoburu/pgbouncer
-          name: pgbouncer
-          ports:
-            - containerPort: 5432
-          resources: {}
-      restartPolicy: Always
-status: {}
+      - name: pgbouncer
+        image: edoburu/pgbouncer:1.22.0-p0
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: pgbouncer-config

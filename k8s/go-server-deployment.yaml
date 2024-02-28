@@ -1,34 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.26.0 (40646f47)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: go-server
   name: go-server
+  labels:
+    app: go-server
 spec:
-  replicas: 2
+  replicas: 10
   selector:
     matchLabels:
-      io.kompose.service: go-server
-  strategy: {}
+      app: go-server
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.26.0 (40646f47)
-      creationTimestamp: null
       labels:
-        io.kompose.service: go-server
+        app: go-server
     spec:
       containers:
-        - image: huhuhu0420/go-server:version0.1test
-          name: go-server
-          ports:
-            - containerPort: 5000
-          resources: {}
-          workingDir: /app
-      restartPolicy: Always
-status: {}
+      - image: huhuhu0420/go-server:version0.1test
+        name: go-server
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PG_HOST
+          value: postgres-db
