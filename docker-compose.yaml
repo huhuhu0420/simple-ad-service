@@ -4,20 +4,14 @@ services:
   go-server:
       image: go-server
       build:
-        context: ./backend
+        context: ./
         dockerfile: Dockerfile
       container_name: go-server
-      working_dir: /app/server
-      environment:
-        - PG_HOST=pgbouncer
+      working_dir: /app
       ports:
         - "5000:5000"
-      volumes:
-        - ./backend:/app/server
-        - .env:/app/.env
       depends_on:
         - postgres-db
-      entrypoint: go run main.go
       restart: always
   postgres-db:
     image: postgres:15.5-alpine3.18

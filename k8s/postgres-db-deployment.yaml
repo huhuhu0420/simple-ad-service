@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-db
+  labels:
+    app: postgres-db
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgres-db
+  template:
+    metadata:
+      labels:
+        app: postgres-db
+    spec:
+      containers:
+      - name: postgres-db
+        image: postgres:15.5-alpine3.18
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: postgres-db-config
+        volumeMounts:
+        - name: postgres-db-initdb
+          mountPath: /docker-entrypoint-initdb.d
+        - name: postgres-pv-volume
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-pv-volume
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
+      - name: postgres-db-initdb
+        configMap:
+          name: postgres-db-initdb

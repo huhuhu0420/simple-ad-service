@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgbouncer-config
+  labels:
+    app: pgbouncer
+data:
+  ADMIN_USERS: postgres
+  AUTH_TYPE: scram-sha-256
+  DB_HOST: postgres-db
+  DB_NAME: postgres
+  DB_PASSWORD: pwd
+  DB_USER: postgres
+  POOL_MODE: transaction
