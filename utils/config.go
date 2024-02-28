@@ -19,7 +19,10 @@ func LoadConfig(path string) (*Config, error) {
 	viper.SetConfigName(".env")
 	viper.SetConfigType("dotenv")
 	viper.AutomaticEnv()
-	viper.ReadInConfig()
+	if err := viper.ReadInConfig(); err != nil {
+		logrus.Fatal(err)
+		return nil, err
+	}
 
 	var cfg Config
 	err := viper.Unmarshal(&cfg)
