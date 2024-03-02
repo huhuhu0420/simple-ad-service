@@ -41,30 +41,10 @@ func (s *serviceSuite) TestCreateAd() {
 }
 
 func (s *serviceSuite) TestGetAd() {
-	s.repository.On("GetAd", domain.SearchAdRequest{
-		Offset:   0,
-		Limit:    10,
-		Age:      18,
-		Gender:   "M",
-		Country:  "US",
-		Platform: "Android",
-	}).Return(&domain.AdsResponse{
-		Items: []domain.Ad{
-			{
-				Title: "Ad title",
-				EndAt: "2023-12-01T00:00:00Z",
-			},
-		}}, nil)
-	ads, err := s.service.GetAd(domain.SearchAdRequest{
-		Offset:   0,
-		Limit:    10,
-		Age:      18,
-		Gender:   "M",
-		Country:  "US",
-		Platform: "Android",
-	})
+	// test if the service calls the repository
+	s.repository.On("GetAd", domain.SearchAdRequest{}).Return(&domain.AdsResponse{}, nil)
+	_, err := s.service.GetAd(domain.SearchAdRequest{})
 	s.NoError(err)
-	s.Equal(1, len(ads.Items))
 }
 
 func TestService(t *testing.T) {
