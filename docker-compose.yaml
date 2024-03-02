@@ -8,6 +8,8 @@ services:
         dockerfile: Dockerfile
       container_name: go-server
       working_dir: /app
+      environment:
+        - PG_HOST=postgres-db
       ports:
         - "5000:5000"
       depends_on:
