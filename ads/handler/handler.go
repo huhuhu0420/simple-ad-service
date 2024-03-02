@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/huhuhu0420/simple-ad-service/domain"
@@ -42,7 +43,12 @@ func (ah *AdHandler) CreateAd(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	err := ah.Service.CreateAd(ad, ad.Conditions)
+	err := validateCondition(ad.Conditions)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	err = ah.Service.CreateAd(ad, ad.Conditions)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -70,7 +76,12 @@ func (ah *AdHandler) CreateAd(c *gin.Context) {
 //	@Router			/ad [get]
 func (ah *AdHandler) GetAd(c *gin.Context) {
 	var searchAdRequest domain.SearchAdRequest
-	if err := c.ShouldBindQuery(&searchAdRequest); err != nil {
+	if err := c.BindQuery(&searchAdRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	err := validateQuery(&searchAdRequest)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -80,4 +91,42 @@ func (ah *AdHandler) GetAd(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, adResponse)
+}
+
+func validateQuery(searchAdRequest *domain.SearchAdRequest) error {
+	if searchAdRequest.Limit > 100 {
+		return errors.New("limit should not exceed 100")
+	}
+	if searchAdRequest.Gender != "" && searchAdRequest.Gender != "M" && searchAdRequest.Gender != "F" {
+		return errors.New("gender should be M or F")
+	}
+	return nil
+}
+
+func validateCondition(conditions domain.Conditions) error {
+	if conditions.AgeStart > conditions.AgeEnd {
+		return errors.New("ageStart should not exceed ageEnd")
+	}
+	if len(conditions.Country) > 0 {
+		for _, c := range conditions.Country {
+			if len(c) != 2 {
+				return errors.New("country code should be 2 characters")
+			}
+		}
+	}
+	if len(conditions.Platform) > 0 {
+		for _, p := range conditions.Platform {
+			if p != "Android" && p != "iOS" && p != "Web" {
+				return errors.New("platform should be Android, iOS or Web")
+			}
+		}
+	}
+	if len(conditions.Gender) > 0 {
+		for _, g := range conditions.Gender {
+			if g != "M" && g != "F" {
+				return errors.New("gender should be M or F")
+			}
+		}
+	}
+	return nil
 }
