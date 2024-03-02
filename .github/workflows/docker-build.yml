@@ -10,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Copy example.env
+        run: cp example.env .env
+
       - name: Build the stack
         run: docker-compose up --build
 
