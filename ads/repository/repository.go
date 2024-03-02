@@ -15,10 +15,6 @@ func NewAdRepository(db *sql.DB) domain.AdRepository {
 	return &adRepository{db}
 }
 
-func (r *adRepository) CreateAd(ad domain.AdInfo, conditions domain.Conditions) error {
-	return nil
-}
-
 func (r *adRepository) InsertNewAd(title string, startAt string, endAt string) (int, error) {
 	sqlStatement := `INSERT INTO ads (title, start_at, end_at) VALUES ($1, $2, $3) RETURNING id`
 	id := 0

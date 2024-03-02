@@ -29,6 +29,16 @@ func HandlHeaders() gin.HandlerFunc {
 	}
 }
 
+func SetRouter() *gin.Engine {
+	r := gin.Default()
+	r.Use(cors.Default(), HandlHeaders())
+
+	// use ginSwagger middleware to serve the API docs
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	return r
+}
+
 //	@title			Advertising ServiceAPI
 //	@version		1.0
 //	@description	This is a simple advertising service API
@@ -54,11 +64,7 @@ func main() {
 		logrus.Fatal(err)
 	}
 
-	r := gin.Default()
-	r.Use(cors.Default(), HandlHeaders())
-
-	// use ginSwagger middleware to serve the API docs
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r := SetRouter()
 
 	adRepo := _adRepository.NewAdRepository(db)
 	adService := _adService.NewAdService(adRepo)

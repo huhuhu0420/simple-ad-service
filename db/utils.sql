@@ -12,29 +12,34 @@ DECLARE
     v_sql TEXT;
 BEGIN
     -- Base FROM clause
-    v_sql := 'SELECT DISTINCT a.title, a.end_at FROM ads a ';
+    v_sql := 'SELECT DISTINCT sub_a.title, sub_a.end_at ';
+
+    -- Filter by date
+    v_sql := v_sql || 'FROM (
+        SELECT a.id, a.title, a.end_at
+        FROM ads a
+        WHERE a.end_at > NOW() AND a.start_at < NOW() 
+        ) AS sub_a ';
 
     -- Conditionally append joins
     IF p_age != 0 THEN
-        v_sql := v_sql || 'LEFT JOIN ad_ages aa ON a.id = aa.ad_id ';
+        v_sql := v_sql || 'LEFT JOIN ad_ages aa ON sub_a.id = aa.ad_id ';
     END IF;
 
     IF p_gender != '' THEN
-        v_sql := v_sql || 'LEFT JOIN ad_genders ag ON a.id = ag.ad_id ';
+        v_sql := v_sql || 'LEFT JOIN ad_genders ag ON sub_a.id = ag.ad_id ';
     END IF;
 
     IF p_country != '' THEN
-        v_sql := v_sql || 'LEFT JOIN ad_countries ac ON a.id = ac.ad_id ';
+        v_sql := v_sql || 'LEFT JOIN ad_countries ac ON sub_a.id = ac.ad_id ';
     END IF;
 
     IF p_platform != '' THEN
-        v_sql := v_sql || 'LEFT JOIN ad_platforms ap ON a.id = ap.ad_id ';
+        v_sql := v_sql || 'LEFT JOIN ad_platforms ap ON sub_a.id = ap.ad_id ';
     END IF;
 
-    -- WHERE clause starts
-    v_sql := v_sql || 'WHERE a.end_at > NOW() AND a.start_at < NOW() ';
-
     -- Conditionally append WHERE conditions
+    v_sql := v_sql || 'WHERE 1=1 ';
     IF p_age != 0 THEN
         v_sql := v_sql || 'AND (aa.age_start IS NULL OR (aa.age_start <= $1 AND aa.age_end >= $1)) ';
     END IF;
