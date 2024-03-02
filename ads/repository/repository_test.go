@@ -74,6 +74,18 @@ func (s *repositorySuite) TestInsertGender() {
 	s.NoError(err)
 }
 
+func (s *repositorySuite) TestGetAd() {
+	rows := sqlmock.NewRows([]string{"title", "end_at"}).
+		AddRow("test", "2021-01-01").
+		AddRow("test2", "2021-01-02")
+	s.mock.ExpectQuery("SELECT").
+		WillReturnRows(rows)
+
+	ads, err := s.repository.GetAd(domain.SearchAdRequest{})
+	s.NoError(err)
+	s.Assert().Equal(2, len(ads.Items))
+}
+
 func TestRepository(t *testing.T) {
 	suite.Run(t, new(repositorySuite))
 }
