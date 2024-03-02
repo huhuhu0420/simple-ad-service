@@ -1,0 +1,17 @@
+name: Docker Compose Actions Workflow
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the stack
+        run: docker-compose up --build
+
+      - name: Test
+        run: docker run --network container:go-server appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
