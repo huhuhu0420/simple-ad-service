@@ -14,7 +14,7 @@ jobs:
         run: cp example.env .env
 
       - name: Build the stack
-        run: docker-compose up --build
+        run: docker-compose up -d --build
 
       - name: Test
         run: docker run --network container:go-server appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
