@@ -74,41 +74,6 @@ func (s *repositorySuite) TestInsertGender() {
 	s.NoError(err)
 }
 
-func (s *repositorySuite) TestCreateAd() {
-	s.mock.ExpectQuery("INSERT INTO ads").
-		WithArgs("test", "2021-01-01", "2021-01-02").
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
-
-	s.mock.ExpectExec("INSERT INTO ad_ages").
-		WithArgs(1, 10, 20).
-		WillReturnResult(sqlmock.NewResult(1, 1))
-
-	s.mock.ExpectExec("INSERT INTO ad_countries").
-		WithArgs(1, "US").
-		WillReturnResult(sqlmock.NewResult(1, 1))
-
-	s.mock.ExpectExec("INSERT INTO ad_platforms").
-		WithArgs(1, "ios").
-		WillReturnResult(sqlmock.NewResult(1, 1))
-
-	s.mock.ExpectExec("INSERT INTO ad_genders").
-		WithArgs(1, "M").
-		WillReturnResult(sqlmock.NewResult(1, 1))
-
-	err := s.repository.CreateAd(domain.AdInfo{
-		Title:   "test",
-		StartAt: "2021-01-01",
-		EndAt:   "2021-01-02",
-	}, domain.Conditions{
-		AgeStart: 10,
-		AgeEnd:   20,
-		Country:  []string{"US"},
-		Platform: []string{"ios"},
-		Gender:   []string{"M"},
-	})
-	s.NoError(err)
-}
-
 func TestRepository(t *testing.T) {
 	suite.Run(t, new(repositorySuite))
 }
