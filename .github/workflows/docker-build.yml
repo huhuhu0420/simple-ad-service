@@ -17,4 +17,4 @@ jobs:
         run: docker-compose up -d --build
 
       - name: Test
-        run: curl -s --retry 10 --retry-connrefused http://localhost:5000/api/v1/ad
+        run: curl -s -v --retry 10 --retry-connrefused http://localhost:5000/api/v1/ad
