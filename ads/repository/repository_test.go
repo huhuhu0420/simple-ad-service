@@ -16,7 +16,7 @@ type repositorySuite struct {
 }
 
 func (s *repositorySuite) SetupTest() {
-	db := &sql.DB{}
+	var db *sql.DB
 	var err error
 	db, s.mock, err = sqlmock.New()
 	if err != nil {
