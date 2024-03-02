@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pgbouncer
+  name: pgbouncer
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: pgbouncer
+  template:
+    metadata:
+      labels:
+        app: pgbouncer
+    spec:
+      containers:
+      - name: pgbouncer
+        image: edoburu/pgbouncer:1.22.0-p0
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: pgbouncer-config

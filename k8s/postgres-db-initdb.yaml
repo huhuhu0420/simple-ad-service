@@ -1,0 +1,388 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-db-initdb
+  labels:
+    app: postgres-db
+data:
+  utils.sql: |
+    CREATE OR REPLACE FUNCTION get_ads
+    (
+      p_offset INTEGER,
+      p_limit INTEGER,
+      p_age INTEGER DEFAULT NULL,
+      p_gender CHAR DEFAULT NULL,
+      p_country CHAR(2) DEFAULT NULL,
+      p_platform VARCHAR DEFAULT NULL
+    )
+    RETURNS TABLE(title VARCHAR, end_at TIMESTAMP) AS $$
+    DECLARE
+        v_sql TEXT;
+    BEGIN
+        -- Base FROM clause
+        v_sql := 'SELECT DISTINCT a.title, a.end_at FROM ads a ';
+
+        -- Conditionally append joins
+        IF p_age != 0 THEN
+            v_sql := v_sql || 'LEFT JOIN ad_ages aa ON a.id = aa.ad_id ';
+        END IF;
+
+        IF p_gender != '' THEN
+            v_sql := v_sql || 'LEFT JOIN ad_genders ag ON a.id = ag.ad_id ';
+        END IF;
+
+        IF p_country != '' THEN
+            v_sql := v_sql || 'LEFT JOIN ad_countries ac ON a.id = ac.ad_id ';
+        END IF;
+
+        IF p_platform != '' THEN
+            v_sql := v_sql || 'LEFT JOIN ad_platforms ap ON a.id = ap.ad_id ';
+        END IF;
+
+        -- WHERE clause starts
+        v_sql := v_sql || 'WHERE a.end_at > NOW() AND a.start_at < NOW() ';
+
+        -- Conditionally append WHERE conditions
+        IF p_age != 0 THEN
+            v_sql := v_sql || 'AND (aa.age_start IS NULL OR (aa.age_start <= $1 AND aa.age_end >= $1)) ';
+        END IF;
+        IF p_gender != '' THEN
+            v_sql := v_sql || 'AND (ag.gender IS NULL OR ag.gender = $2) ';
+        END IF;
+        IF p_country != '' THEN
+            v_sql := v_sql || 'AND (ac.country_code IS NULL OR ac.country_code = $3) ';
+        END IF;
+        IF p_platform != '' THEN
+            v_sql := v_sql || 'AND (ap.platform IS NULL OR ap.platform = $4) ';
+        END IF;
+
+        -- order by end_at
+        v_sql := v_sql || 'ORDER BY end_at DESC ';
+
+        -- Append OFFSET and LIMIT
+        v_sql := v_sql || 'OFFSET $5 ';
+
+        IF p_limit != 0 THEN
+            v_sql := v_sql || ' LIMIT $6 ';
+        ELSE
+            v_sql := v_sql || ' LIMIT 5 ';
+        END IF;
+
+        -- Execute the constructed query
+        RETURN QUERY EXECUTE v_sql USING p_age, p_gender, p_country, p_platform, p_offset, p_limit;
+    END;
+    $$ LANGUAGE plpgsql;
+
+  create-ads.sql: |
+    CREATE TABLE ads (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        start_at TIMESTAMP NOT NULL,
+        end_at TIMESTAMP NOT NULL CHECK (end_at > start_at)
+    );
+    CREATE TABLE ad_ages (
+        ad_id INTEGER REFERENCES ads(id),
+        age_start INTEGER CHECK (age_start >= 1 AND age_start <= 99),
+        age_end INTEGER CHECK (age_end >= 1 AND age_end <= 99 AND age_end >= age_start),
+        PRIMARY KEY (ad_id)
+    );
+    CREATE TABLE countries (
+        code CHAR(2) PRIMARY KEY
+    );
+    CREATE TABLE ad_countries (
+        ad_id INTEGER REFERENCES ads(id),
+        country_code CHAR(2) REFERENCES countries(code),
+        PRIMARY KEY (ad_id, country_code)
+    );
+
+    CREATE TABLE ad_platforms (
+        ad_id INTEGER REFERENCES ads(id),
+        platform VARCHAR(10) CHECK (platform IN ('Android', 'iOS', 'Web')),
+        PRIMARY KEY (ad_id, platform)
+    );
+    CREATE TABLE ad_genders (
+        ad_id INTEGER REFERENCES ads(id),
+        gender CHAR(1) CHECK (gender IN ('M', 'F')),
+        PRIMARY KEY (ad_id, gender)
+    );
+
+  insert-ads.sql: |
+    INSERT INTO COUNTRIES (code) VALUES
+    ('AF'),
+    ('AL'),
+    ('DZ'),
+    ('AS'),
+    ('AD'),
+    ('AO'),
+    ('AI'),
+    ('AQ'),
+    ('AG'),
+    ('AR'),
+    ('AM'),
+    ('AW'),
+    ('AU'),
+    ('AT'),
+    ('AZ'),
+    ('BS'),
+    ('BH'),
+    ('BD'),
+    ('BB'),
+    ('BY'),
+    ('BE'),
+    ('BZ'),
+    ('BJ'),
+    ('BM'),
+    ('BT'),
+    ('BO'),
+    ('BQ'),
+    ('BA'),
+    ('BW'),
+    ('BV'),
+    ('BR'),
+    ('IO'),
+    ('BN'),
+    ('BG'),
+    ('BF'),
+    ('BI'),
+    ('CV'),
+    ('KH'),
+    ('CM'),
+    ('CA'),
+    ('KY'),
+    ('CF'),
+    ('TD'),
+    ('CL'),
+    ('CN'),
+    ('CX'),
+    ('CC'),
+    ('CO'),
+    ('KM'),
+    ('CD'),
+    ('CG'),
+    ('CK'),
+    ('CR'),
+    ('HR'),
+    ('CU'),
+    ('CW'),
+    ('CY'),
+    ('CZ'),
+    ('CI'),
+    ('DK'),
+    ('DJ'),
+    ('DM'),
+    ('DO'),
+    ('EC'),
+    ('EG'),
+    ('SV'),
+    ('GQ'),
+    ('ER'),
+    ('EE'),
+    ('SZ'),
+    ('ET'),
+    ('FK'),
+    ('FO'),
+    ('FJ'),
+    ('FI'),
+    ('FR'),
+    ('GF'),
+    ('PF'),
+    ('TF'),
+    ('GA'),
+    ('GM'),
+    ('GE'),
+    ('DE'),
+    ('GH'),
+    ('GI'),
+    ('GR'),
+    ('GL'),
+    ('GD'),
+    ('GP'),
+    ('GU'),
+    ('GT'),
+    ('GG'),
+    ('GN'),
+    ('GW'),
+    ('GY'),
+    ('HT'),
+    ('HM'),
+    ('VA'),
+    ('HN'),
+    ('HK'),
+    ('HU'),
+    ('IS'),
+    ('IN'),
+    ('ID'),
+    ('IR'),
+    ('IQ'),
+    ('IE'),
+    ('IM'),
+    ('IL'),
+    ('IT'),
+    ('JM'),
+    ('JP'),
+    ('JE'),
+    ('JO'),
+    ('KZ'),
+    ('KE'),
+    ('KI'),
+    ('KP'),
+    ('KR'),
+    ('KW'),
+    ('KG'),
+    ('LA'),
+    ('LV'),
+    ('LB'),
+    ('LS'),
+    ('LR'),
+    ('LY'),
+    ('LI'),
+    ('LT'),
+    ('LU'),
+    ('MO'),
+    ('MG'),
+    ('MW'),
+    ('MY'),
+    ('MV'),
+    ('ML'),
+    ('MT'),
+    ('MH'),
+    ('MQ'),
+    ('MR'),
+    ('MU'),
+    ('YT'),
+    ('MX'),
+    ('FM'),
+    ('MD'),
+    ('MC'),
+    ('MN'),
+    ('ME'),
+    ('MS'),
+    ('MA'),
+    ('MZ'),
+    ('MM'),
+    ('NA'),
+    ('NR'),
+    ('NP'),
+    ('NL'),
+    ('NC'),
+    ('NZ'),
+    ('NI'),
+    ('NE'),
+    ('NG'),
+    ('NU'),
+    ('NF'),
+    ('MP'),
+    ('NO'),
+    ('OM'),
+    ('PK'),
+    ('PW'),
+    ('PS'),
+    ('PA'),
+    ('PG'),
+    ('PY'),
+    ('PE'),
+    ('PH'),
+    ('PN'),
+    ('PL'),
+    ('PT'),
+    ('PR'),
+    ('QA'),
+    ('MK'),
+    ('RO'),
+    ('RU'),
+    ('RW'),
+    ('RE'),
+    ('BL'),
+    ('SH'),
+    ('KN'),
+    ('LC'),
+    ('MF'),
+    ('PM'),
+    ('VC'),
+    ('WS'),
+    ('SM'),
+    ('ST'),
+    ('SA'),
+    ('SN'),
+    ('RS'),
+    ('SC'),
+    ('SL'),
+    ('SG'),
+    ('SX'),
+    ('SK'),
+    ('SI'),
+    ('SB'),
+    ('SO'),
+    ('ZA'),
+    ('GS'),
+    ('SS'),
+    ('ES'),
+    ('LK'),
+    ('SD'),
+    ('SR'),
+    ('SJ'),
+    ('SE'),
+    ('CH'),
+    ('SY'),
+    ('TW'),
+    ('TJ'),
+    ('TZ'),
+    ('TH'),
+    ('TL'),
+    ('TG'),
+    ('TK'),
+    ('TO'),
+    ('TT'),
+    ('TN'),
+    ('TR'),
+    ('TM'),
+    ('TC'),
+    ('TV'),
+    ('UG'),
+    ('UA'),
+    ('AE'),
+    ('GB'),
+    ('UM'),
+    ('US'),
+    ('UY'),
+    ('UZ'),
+    ('VU'),
+    ('VE'),
+    ('VN'),
+    ('VG'),
+    ('VI'),
+    ('WF'),
+    ('EH'),
+    ('YE'),
+    ('ZM'),
+    ('ZW'),
+    ('AX');
+
+    INSERT INTO ADS (title, start_at, end_at) VALUES
+    ('Ad 1', '2024-01-01 00:00:00', '2024-12-31 23:59:59'),
+    ('Ad 2', '2024-01-01 00:00:00', '2024-05-31 23:59:59'),
+    ('Ad 3', '2024-06-01 00:00:00', '2024-12-31 23:59:59'),
+    ('Ad 4', '2024-02-01 00:00:00', '2024-08-31 23:59:59');
+
+    INSERT INTO ad_ages (ad_id, age_start, age_end) VALUES
+    (2, 1, 18),
+    (3, 18, 45);
+
+    INSERT INTO ad_countries (ad_id, country_code) VALUES
+    (2, 'TW'),
+    (2, 'JP'),
+    (2, 'US'),
+    (3, 'HK'),
+    (3, 'TW');
+
+    INSERT INTO ad_platforms (ad_id, platform) VALUES
+    (2, 'iOS'),
+    (2, 'Android'),
+    (3, 'Android'),
+    (3, 'Web'),
+    (4, 'Web');
+
+    INSERT INTO ad_genders (ad_id, gender) VALUES
+    (2, 'M'),
+    (2, 'F'),
+    (3, 'F');

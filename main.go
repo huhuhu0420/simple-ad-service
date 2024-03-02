@@ -8,7 +8,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 
 	_ "github.com/huhuhu0420/simple-ad-service/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -21,14 +20,6 @@ import (
 
 	_ "github.com/lib/pq"
 )
-
-func init() {
-	viper.SetConfigFile("../.env")
-	viper.SetConfigType("dotenv")
-	if err := viper.ReadInConfig(); err != nil {
-		logrus.Fatal(err)
-	}
-}
 
 func HandlHeaders() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -57,14 +48,14 @@ func SetRouter() *gin.Engine {
 func main() {
 	logrus.SetReportCaller(true)
 
-	config, err := utils.LoadConfig("../")
+	config, err := utils.LoadConfig("./")
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
 	db, err := sql.Open(
 		"postgres",
-		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbDatabase),
+		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbName),
 	)
 	if err != nil {
 		logrus.Fatal(err)
