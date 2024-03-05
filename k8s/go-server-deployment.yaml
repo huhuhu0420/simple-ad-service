@@ -22,3 +22,7 @@ spec:
         env:
         - name: PG_HOST
           value: postgres-db
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
