@@ -54,9 +54,13 @@ func main() {
 	}
 
 	db, err := db.NewDB(config)
+	if err != nil {
+		logrus.Fatal(err)
+	}
 	if err = db.Ping(context.Background()); err != nil {
 		logrus.Fatal(err)
 	}
+	defer db.Close()
 
 	r := SetRouter()
 

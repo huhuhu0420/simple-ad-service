@@ -9,10 +9,10 @@ import (
 )
 
 type adRepository struct {
-	db *db.DB
+	db db.DB
 }
 
-func NewAdRepository(db *db.DB) domain.AdRepository {
+func NewAdRepository(db db.DB) domain.AdRepository {
 	return &adRepository{db}
 }
 
