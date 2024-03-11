@@ -7,12 +7,12 @@ CREATE OR REPLACE FUNCTION get_ads(
     p_country CHAR(2) DEFAULT NULL,
     p_platform VARCHAR DEFAULT NULL
 )
-RETURNS TABLE(title VARCHAR, end_at TIMESTAMP) AS $$
+RETURNS TABLE(title VARCHAR, end_at TEXT) AS $$
 DECLARE
     v_sql TEXT;
 BEGIN
     -- Base FROM clause
-    v_sql := 'SELECT DISTINCT sub_a.title, sub_a.end_at ';
+    v_sql := 'SELECT sub_a.title, TO_CHAR(sub_a.end_at, ''YYYY-MM-DD HH24:MM:SS'') ';
 
     -- Filter by date
     v_sql := v_sql || 'FROM (
@@ -54,7 +54,7 @@ BEGIN
     END IF;
 
     -- order by end_at
-    v_sql := v_sql || 'ORDER BY end_at DESC ';
+    v_sql := v_sql || 'ORDER BY sub_a.end_at DESC ';
 
     -- Append OFFSET and LIMIT
     v_sql := v_sql || 'OFFSET $5 ';
