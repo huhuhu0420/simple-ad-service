@@ -24,7 +24,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - ./sql:/docker-entrypoint-initdb.d
   # pgbouncer:
   #   image: edoburu/pgbouncer
   #   container_name: pgbouncer

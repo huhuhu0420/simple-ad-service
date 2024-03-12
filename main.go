@@ -1,14 +1,14 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
+	"context"
 
 	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 
+	"github.com/huhuhu0420/simple-ad-service/db"
 	_ "github.com/huhuhu0420/simple-ad-service/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,7 +18,7 @@ import (
 	_adService "github.com/huhuhu0420/simple-ad-service/ads/service"
 	"github.com/huhuhu0420/simple-ad-service/utils"
 
-	_ "github.com/lib/pq"
+	_ "github.com/jackc/pgx/v5"
 )
 
 func HandlHeaders() gin.HandlerFunc {
@@ -53,16 +53,14 @@ func main() {
 		logrus.Fatal(err)
 	}
 
-	db, err := sql.Open(
-		"postgres",
-		fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbName),
-	)
+	db, err := db.NewDB(config)
 	if err != nil {
 		logrus.Fatal(err)
 	}
-	if err = db.Ping(); err != nil {
+	if err = db.Ping(context.Background()); err != nil {
 		logrus.Fatal(err)
 	}
+	defer db.Close()
 
 	r := SetRouter()
 
