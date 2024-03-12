@@ -48,5 +48,9 @@ func (s *adService) CreateAd(ad domain.AdInfo, conditions domain.Conditions) err
 }
 
 func (s *adService) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
-	return s.repo.GetAd(searchAdRequest)
+	ad, err := s.repo.GetAd(searchAdRequest)
+	if err != nil {
+		return nil, err
+	}
+	return ad, nil
 }
