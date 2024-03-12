@@ -12,7 +12,7 @@ DECLARE
     v_sql TEXT;
 BEGIN
     -- Base FROM clause
-    v_sql := 'SELECT sub_a.title, TO_CHAR(sub_a.end_at, ''YYYY-MM-DD HH24:MM:SS'') ';
+    v_sql := 'SELECT DISTINCT sub_a.title, TO_CHAR(sub_a.end_at, ''YYYY-MM-DD HH24:MM:SS'') ';
 
     -- Filter by date
     v_sql := v_sql || 'FROM (
@@ -21,22 +21,11 @@ BEGIN
         WHERE a.end_at > NOW() AND a.start_at < NOW() 
         ) AS sub_a ';
 
-    -- Conditionally append joins
-    IF p_age != 0 THEN
-        v_sql := v_sql || 'LEFT JOIN ad_ages aa ON sub_a.id = aa.ad_id ';
-    END IF;
-
-    IF p_gender != '' THEN
-        v_sql := v_sql || 'LEFT JOIN ad_genders ag ON sub_a.id = ag.ad_id ';
-    END IF;
-
-    IF p_country != '' THEN
-        v_sql := v_sql || 'LEFT JOIN ad_countries ac ON sub_a.id = ac.ad_id ';
-    END IF;
-
-    IF p_platform != '' THEN
-        v_sql := v_sql || 'LEFT JOIN ad_platforms ap ON sub_a.id = ap.ad_id ';
-    END IF;
+    -- joins
+    v_sql := v_sql || 'LEFT JOIN ad_ages aa ON sub_a.id = aa.ad_id 
+                       LEFT JOIN ad_genders ag ON sub_a.id = ag.ad_id
+                       LEFT JOIN ad_countries ac ON sub_a.id = ac.ad_id
+                       LEFT JOIN ad_platforms ap ON sub_a.id = ap.ad_id ';
 
     -- Conditionally append WHERE conditions
     v_sql := v_sql || 'WHERE 1=1 ';
@@ -54,7 +43,7 @@ BEGIN
     END IF;
 
     -- order by end_at
-    v_sql := v_sql || 'ORDER BY sub_a.end_at DESC ';
+    v_sql := v_sql || 'ORDER BY TO_CHAR(sub_a.end_at, ''YYYY-MM-DD HH24:MM:SS'') DESC ';
 
     -- Append OFFSET and LIMIT
     v_sql := v_sql || 'OFFSET $5 ';
