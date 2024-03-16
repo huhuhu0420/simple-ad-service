@@ -15,7 +15,7 @@ spec:
         app: go-server
     spec:
       containers:
-      - image: huhuhu0420/go-server:version0.1test
+      - image: huhuhu0420/go-server:latest
         name: go-server
         ports:
         - containerPort: 5000
