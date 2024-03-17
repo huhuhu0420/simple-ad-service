@@ -1,7 +1,7 @@
 meta {
-  name: all-condition-multi
+  name: platform-bad
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
@@ -22,7 +22,7 @@ body:json {
         "M","F"
       ],
       "platform": [
-        "Android", "iOS", "Web"
+        "Android", "FreeBSD"
       ]
     },
     "endAt": "2024-12-04T00:00:00Z",
@@ -32,7 +32,7 @@ body:json {
 }
 
 tests {
-  test("status code is 200", function() {
-    expect(res.status).to.equal(200)
+  test("status code is 400", function() {
+    expect(res.status).to.equal(400)
   });
 }

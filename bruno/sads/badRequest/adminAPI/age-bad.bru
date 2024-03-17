@@ -1,5 +1,5 @@
 meta {
-  name: all-condition-multi
+  name: age-bad
   type: http
   seq: 3
 }
@@ -13,7 +13,7 @@ post {
 body:json {
   {
     "conditions": {
-      "ageEnd": 17,
+      "ageEnd": 103,
       "ageStart": 1,
       "country": [
         "US", "TW", "JP", "HK"
@@ -22,7 +22,7 @@ body:json {
         "M","F"
       ],
       "platform": [
-        "Android", "iOS", "Web"
+        "Android", "Web"
       ]
     },
     "endAt": "2024-12-04T00:00:00Z",
@@ -32,7 +32,7 @@ body:json {
 }
 
 tests {
-  test("status code is 200", function() {
-    expect(res.status).to.equal(200)
+  test("status code is 400", function() {
+    expect(res.status).to.equal(400)
   });
 }
