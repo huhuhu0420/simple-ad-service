@@ -1,0 +1,56 @@
+meta {
+  name: multi-query
+  type: http
+  seq: 8
+}
+
+get {
+  url: 127.0.0.1:5000/api/v1/ad?Gender=F&Platform=Web&Country=TW&Age=18
+  body: none
+  auth: none
+}
+
+query {
+  Gender: F
+  Platform: Web
+  Country: TW
+  Age: 18
+}
+
+tests {
+  let data = res.getBody();
+  data = JSON.stringify(data);
+  let expected = {
+    "items": [
+      {
+        "title": "18-45 HK TW F Android Web",
+        "endAt": "2024-12-31 23:12:59"
+      },
+      {
+        "title": "no condition",
+        "endAt": "2024-12-31 23:12:59"
+      },
+      {
+        "title": "18-65",
+        "endAt": "2024-12-02 00:12:00"
+      },
+      {
+        "title": "no condition",
+        "endAt": "2024-12-01 00:12:00"
+      },
+      {
+        "title": "Web",
+        "endAt": "2024-08-31 23:08:59"
+      }
+    ]
+  }
+  
+  test("status code is 200", function() {
+    expect(res.status).to.equal(200)
+  });
+  
+  test("response body is correct", function() {
+    expect(data).to.equal(JSON.stringify(expected))
+  });
+  
+}

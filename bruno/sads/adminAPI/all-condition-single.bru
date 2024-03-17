@@ -1,0 +1,176 @@
+meta {
+  name: all-condition-single
+  type: http
+  seq: 3
+}
+
+post {
+  url: {
+  "items": [
+    {
+      "title": "18-45 HK TW F Android Web",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "1-17 US TW JP HK MF Android iOS Web",
+      "endAt": "2024-12-04 00:12:00"
+    },
+    {
+      "title": "18-65",
+      "endAt": "2024-12-02 00:12:00"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-01 00:12:00"
+    }
+  ]
+}{
+  "items": [
+    {
+      "title": "18-45 HK TW F Android Web",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "1-17 US TW JP HK MF Android iOS Web",
+      "endAt": "2024-12-04 00:12:00"
+    },
+    {
+      "title": "18-65",
+      "endAt": "2024-12-02 00:12:00"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-01 00:12:00"
+    }
+  ]
+}{
+  "items": [
+    {
+      "title": "18-45 HK TW F Android Web",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "1-17 US TW JP HK MF Android iOS Web",
+      "endAt": "2024-12-04 00:12:00"
+    },
+    {
+      "title": "18-65",
+      "endAt": "2024-12-02 00:12:00"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-01 00:12:00"
+    }
+  ]
+}{
+  "items": [
+    {
+      "title": "18-45 HK TW F Android Web",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "1-17 US TW JP HK MF Android iOS Web",
+      "endAt": "2024-12-04 00:12:00"
+    },
+    {
+      "title": "18-65",
+      "endAt": "2024-12-02 00:12:00"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-01 00:12:00"
+    }
+  ]
+}{
+  "items": [
+    {
+      "title": "18-45 HK TW F Android Web",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "1-17 US TW JP HK MF Android iOS Web",
+      "endAt": "2024-12-04 00:12:00"
+    },
+    {
+      "title": "18-65",
+      "endAt": "2024-12-02 00:12:00"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-01 00:12:00"
+    }
+  ]
+}{
+  "items": [
+    {
+      "title": "18-45 HK TW F Android Web",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-31 23:12:59"
+    },
+    {
+      "title": "1-17 US TW JP HK MF Android iOS Web",
+      "endAt": "2024-12-04 00:12:00"
+    },
+    {
+      "title": "18-65",
+      "endAt": "2024-12-02 00:12:00"
+    },
+    {
+      "title": "no condition",
+      "endAt": "2024-12-01 00:12:00"
+    }
+  ]
+}127.0.0.1:5000/api/v1/ad
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "conditions": {
+      "ageEnd": 17,
+      "ageStart": 1,
+      "country": [
+        "US"
+      ],
+      "gender": [
+        "M"
+      ],
+      "platform": [
+        "Android"
+      ]
+    },
+    "endAt": "2024-12-03T00:00:00Z",
+    "startAt": "2024-01-01T00:00:00Z",
+    "title": "1-17 US M Android"
+  }
+}
+
+tests {
+  test("status code is 200", function() {
+    expect(res.status).to.equal(200)
+  });
+}
