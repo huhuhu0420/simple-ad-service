@@ -94,7 +94,7 @@ func (ah *AdHandler) GetAd(c *gin.Context) {
 }
 
 func validateQuery(searchAdRequest *domain.SearchAdRequest) error {
-	if searchAdRequest.Limit > 100 || searchAdRequest.Limit < 1 {
+	if searchAdRequest.Limit != 0 && (searchAdRequest.Limit > 100 || searchAdRequest.Limit < 1) {
 		return errors.New("limit should be between 1 and 100")
 	}
 	return nil
@@ -104,8 +104,10 @@ func validateCondition(conditions domain.Conditions) error {
 	if conditions.AgeStart > conditions.AgeEnd {
 		return errors.New("ageStart should not exceed ageEnd")
 	}
-	if conditions.AgeStart < 1 || conditions.AgeEnd > 100 {
-		return errors.New("age should be between 1 and 100")
+	if conditions.AgeStart != 0 {
+		if conditions.AgeStart < 1 || conditions.AgeEnd > 100 {
+			return errors.New("age should be between 1 and 100")
+		}
 	}
 	if len(conditions.Country) > 0 {
 		for _, c := range conditions.Country {
