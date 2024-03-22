@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "e76648d5-089f-44da-820b-70acc334b2db",
+		"_postman_id": "e9f47443-3b13-4898-8d7b-a2a61013679a",
 		"name": "sads",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "23531552"
 	},
 	"item": [
@@ -39,21 +39,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						},
@@ -84,21 +70,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						},
@@ -129,21 +101,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						}
@@ -231,21 +189,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						},
@@ -276,21 +220,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						},
@@ -321,21 +251,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						},
@@ -366,21 +282,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						}
@@ -825,21 +727,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": {
-									"raw": "127.0.0.1:5000/api/v1/ad",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"v1",
-										"ad"
-									]
-								}
+								"url": "127.0.0.1:5000/api/v1/ad"
 							},
 							"response": []
 						},
