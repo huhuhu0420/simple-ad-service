@@ -53,7 +53,7 @@ func (s *handlerSuite) TestGetAdResponse500() {
 }
 
 func (s *handlerSuite) TestGetAdResponse400() {
-	req, _ := http.NewRequest("GET", "/api/v1/ad?Gender=2", nil)
+	req, _ := http.NewRequest("GET", "/api/v1/ad?Limit=101", nil)
 	w := httptest.NewRecorder()
 
 	s.router.ServeHTTP(w, req)
