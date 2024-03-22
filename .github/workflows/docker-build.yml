@@ -30,6 +30,3 @@ jobs:
         with:
           collection: ./api-test/collection.json
           reporters: cli
-        
-      - name: out summary to console
-        run: echo ${{ steps.run-newman.outputs.summary }}
