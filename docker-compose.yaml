@@ -10,6 +10,7 @@ services:
       working_dir: /app
       environment:
         - PG_HOST=postgres-db
+        - REDIS_HOST=redis
       ports:
         - "5000:5000"
       depends_on:

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-
 	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
@@ -53,18 +51,15 @@ func main() {
 		logrus.Fatal(err)
 	}
 
-	db, err := db.NewDB(config)
-	if err != nil {
-		logrus.Fatal(err)
-	}
-	if err = db.Ping(context.Background()); err != nil {
-		logrus.Fatal(err)
-	}
-	defer db.Close()
+	pgdb := db.NewDB(config)
+	rdb := db.InitRedis(config)
+
+	defer pgdb.Close()
+	defer rdb.Close()
 
 	r := SetRouter()
 
-	adRepo := _adRepository.NewAdRepository(db)
+	adRepo := _adRepository.NewAdRepository(pgdb)
 	adService := _adService.NewAdService(adRepo)
 	_adHandler.NewAdHandler(r, adService)
 

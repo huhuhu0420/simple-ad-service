@@ -20,12 +20,16 @@ type DB interface {
 	Ping(context.Context) error
 }
 
-func NewDB(config *utils.Config) (DB, error) {
+func NewDB(config *utils.Config) DB {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", config.DbHost, config.DbUser, config.DbPassword, config.DbName)
 	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
 		logrus.Error(err)
-		return nil, err
+		return nil
 	}
-	return pool, nil
+	if pool.Ping(context.Background()) != nil {
+		logrus.Fatal(err)
+		return nil
+	}
+	return pool
 }
