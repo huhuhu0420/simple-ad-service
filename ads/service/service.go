@@ -14,21 +14,25 @@ func NewAdService(repo domain.AdRepository) domain.AdService {
 
 func (s *adService) insertConditions(id int, conditions domain.Conditions) error {
 	if conditions.AgeStart != 0 && conditions.AgeEnd != 0 {
+		s.repo.InvalidateAgeCache(conditions.AgeStart, conditions.AgeEnd)
 		if err := s.repo.InsertAgeRange(id, conditions.AgeStart, conditions.AgeEnd); err != nil {
 			return err
 		}
 	}
 	if len(conditions.Country) > 0 {
+		s.repo.InvalidateCountryCache(conditions.Country)
 		if err := s.repo.InsertCountry(id, conditions.Country); err != nil {
 			return err
 		}
 	}
 	if len(conditions.Platform) > 0 {
+		s.repo.InvalidatePlatformCache(conditions.Platform)
 		if err := s.repo.InsertPlatform(id, conditions.Platform); err != nil {
 			return err
 		}
 	}
 	if len(conditions.Gender) > 0 {
+		s.repo.InvalidateGenderCache(conditions.Gender)
 		if err := s.repo.InsertGender(id, conditions.Gender); err != nil {
 			return err
 		}
