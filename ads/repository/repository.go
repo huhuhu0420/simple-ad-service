@@ -2,18 +2,21 @@ package repository
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/huhuhu0420/simple-ad-service/db"
 	"github.com/huhuhu0420/simple-ad-service/domain"
+	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 )
 
 type adRepository struct {
-	db db.DB
+	db    db.DB
+	cache redis.Client
 }
 
-func NewAdRepository(db db.DB) domain.AdRepository {
-	return &adRepository{db}
+func NewAdRepository(db db.DB, redis redis.Client) domain.AdRepository {
+	return &adRepository{db, redis}
 }
 
 func (r *adRepository) InsertNewAd(title string, startAt string, endAt string) (int, error) {
@@ -74,6 +77,34 @@ func (r *adRepository) InsertGender(id int, gender []string) error {
 }
 
 func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
+	cachekey, _ := json.Marshal(searchAdRequest)
+	// Check if the ads is already in cache
+	cachedAds, err := r.cache.Get(context.Background(), string(cachekey)).Result()
+	if err == redis.Nil {
+		// If not, get the ads from DB
+		adsResponse, err := r.getAdFromDB(searchAdRequest)
+		if err != nil {
+			logrus.Error(err)
+			return nil, err
+		}
+		adsResponseBytes, _ := json.Marshal(adsResponse)
+		err = r.cache.Set(context.Background(), string(cachekey), adsResponseBytes, 0).Err()
+		if err != nil {
+			logrus.Error(err)
+			return nil, err
+		}
+		return adsResponse, nil
+	} else if err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
+	// If the ads is already in cache, return the ads
+	adResponse := &domain.AdsResponse{}
+	json.Unmarshal([]byte(cachedAds), adResponse)
+	return adResponse, nil
+}
+
+func (r *adRepository) getAdFromDB(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
 	adsResponse := &domain.AdsResponse{}
 	ad := &domain.Ad{}
 
