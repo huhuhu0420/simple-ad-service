@@ -15,7 +15,7 @@ cp example.env .env
 docker-compose up
 ```
 
-There're two containers will be created, one is Golang for backend server, another is postgreSQL for DBMS.
+There're three containers will be created: Golang for the server, postgreSQL for the database, and Redis for the cache.
 
 Database will be initialized with some data, you can check the data in `sql/*.sql`.
 
@@ -64,6 +64,13 @@ The database is built with postgreSQL, and it contains six tables:
 - `ad_countries`: contains the ad country information
 - `countries`: contains country code in ISO 3166-1 alpha-2
 
+
+#### Cache
+
+Though I implemented the cache feature, there's a issue mentioned in [issue](#improvement).
+
+The cache is built with Redis, and it caches the query for key and the response for value.
+
 ### Testing
 
 The project contains unit tests and API tests.
@@ -88,3 +95,8 @@ tools: github actions
 - build: using docker-compose
 - api test: using newman
 - deploy: deploy to GKE
+
+### Improvement
+
+#### Cache
+In my opinion, I believe that cache technology is not suitable for this project. This is because the data is updated too frequently, leading to frequent cache invalidation. Furthermore, the complexity of the query conditions makes it easy to encounter cache misses.
