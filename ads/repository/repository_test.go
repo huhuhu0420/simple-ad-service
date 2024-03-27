@@ -6,6 +6,7 @@ import (
 	"github.com/huhuhu0420/simple-ad-service/db"
 	"github.com/huhuhu0420/simple-ad-service/domain"
 	"github.com/pashagolub/pgxmock/v3"
+	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/suite"
 )
@@ -33,7 +34,7 @@ func (s *repositorySuite) SetupTest() {
 	if err != nil {
 		s.T().Fatal(err)
 	}
-	s.repository = NewAdRepository(db)
+	s.repository = NewAdRepository(db, *redis.NewClient(&redis.Options{}))
 }
 
 func (s *repositorySuite) TearDownTest() {
