@@ -63,3 +63,28 @@ The database is built with postgreSQL, and it contains six tables:
 - `ad_platforms`: contains the ad platform information
 - `ad_countries`: contains the ad country information
 - `countries`: contains country code in ISO 3166-1 alpha-2
+
+### Testing
+
+The project contains unit tests and API tests.
+
+### k8s
+
+The project contains k8s deployment files, and it can be deployed to GKE.
+
+K8s deployment files:
+- `go-server-deployment.yaml`: the deployment file for the Golang server
+- `go-server-service.yaml`: the service file for the Golang server
+- `ingress.yaml`: the ingress file for the Golang server
+- `postgres-db-deployment.yaml`: the deployment file for the postgreSQL
+- `postgres-db-service.yaml`: the service file for the postgreSQL
+- `postgres-db-pvc.yaml`: the persistent volume claim file for the postgreSQL
+- `postgres-db-pv.yaml`: the persistent volume file for the postgreSQL
+
+### CI/CD
+tools: github actions
+- lint: using golangci-lint
+- test: using go test for unit test
+- build: using docker-compose
+- api test: using newman
+- deploy: deploy to GKE
