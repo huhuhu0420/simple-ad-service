@@ -102,7 +102,10 @@ func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.Ad
 	}
 	// If the ads is already in cache, return the ads
 	adResponse := &domain.AdsResponse{}
-	json.Unmarshal([]byte(cachedAds), adResponse)
+	if err := json.Unmarshal([]byte(cachedAds), adResponse); err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
 	return adResponse, nil
 }
 
