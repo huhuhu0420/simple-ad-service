@@ -25,6 +25,7 @@ func (s *serviceSuite) TestCreateAd() {
 	s.repository.On("InsertCountry", 1, []string{"US", "TW", "JP"}).Return(nil)
 	s.repository.On("InsertPlatform", 1, []string{"ios", "web"}).Return(nil)
 	s.repository.On("InsertGender", 1, []string{"M"}).Return(nil)
+	s.repository.On("InvalidateAllCache").Return(nil)
 
 	testCase := []domain.AdInfo{}
 	// ad has conditions
