@@ -22,3 +22,7 @@ spec:
         env:
         - name: PG_HOST
           value: postgres-db
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
