@@ -30,6 +30,7 @@ Go to http://localhost:5000/swagger/index.html can see swagger api document.
 #### Golang Server
 
 The server is built with Golang, and it uses `gin` as the web framework. The server provides two APIs:
+
 `/ad POST`: create an ad
 - the request body should be a JSON object, and the JSON object should contain the following fields:
   - title: string
