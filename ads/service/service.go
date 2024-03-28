@@ -44,6 +44,9 @@ func (s *adService) CreateAd(ad domain.AdInfo, conditions domain.Conditions) err
 	if err := s.insertConditions(id, conditions); err != nil {
 		return err
 	}
+	if err := s.repo.InvalidateAllCache(); err != nil {
+		return err
+	}
 	return nil
 }
 

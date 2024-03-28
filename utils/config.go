@@ -12,6 +12,8 @@ type Config struct {
 	DbUser      string `mapstructure:"DB_USER"`
 	DbPassword  string `mapstructure:"DB_PASSWORD"`
 	DbHost      string `mapstructure:"PG_HOST"`
+	RedisHost   string `mapstructure:"REDIS_HOST"`
+	RedisPort   int    `mapstructure:"REDIS_PORT"`
 }
 
 func LoadConfig(path string) (*Config, error) {
