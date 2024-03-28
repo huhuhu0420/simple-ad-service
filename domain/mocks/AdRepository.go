@@ -12,24 +12,6 @@ type AdRepository struct {
 	mock.Mock
 }
 
-// CreateAd provides a mock function with given fields: ad, conditions
-func (_m *AdRepository) CreateAd(ad domain.AdInfo, conditions domain.Conditions) error {
-	ret := _m.Called(ad, conditions)
-
-	if len(ret) == 0 {
-		panic("no return value specified for CreateAd")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(domain.AdInfo, domain.Conditions) error); ok {
-		r0 = rf(ad, conditions)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // GetAd provides a mock function with given fields: searchAdRequest
 func (_m *AdRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
 	ret := _m.Called(searchAdRequest)
@@ -153,6 +135,24 @@ func (_m *AdRepository) InsertPlatform(id int, platform []string) error {
 	var r0 error
 	if rf, ok := ret.Get(0).(func(int, []string) error); ok {
 		r0 = rf(id, platform)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// InvalidateAllCache provides a mock function with given fields:
+func (_m *AdRepository) InvalidateAllCache() error {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for InvalidateAllCache")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func() error); ok {
+		r0 = rf()
 	} else {
 		r0 = ret.Error(0)
 	}

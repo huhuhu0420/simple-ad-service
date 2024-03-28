@@ -1,8 +1,11 @@
 package repository
 
 import (
+	"encoding/json"
 	"testing"
+	"time"
 
+	"github.com/go-redis/redismock/v9"
 	"github.com/huhuhu0420/simple-ad-service/db"
 	"github.com/huhuhu0420/simple-ad-service/domain"
 	"github.com/pashagolub/pgxmock/v3"
@@ -13,6 +16,7 @@ import (
 type repositorySuite struct {
 	suite.Suite
 	mock       pgxmock.PgxPoolIface
+	mockCache  redismock.ClientMock
 	repository domain.AdRepository
 }
 
@@ -29,11 +33,13 @@ func (s *repositorySuite) SetupTest() {
 	var err error
 	var db db.DB
 	s.mock, err = pgxmock.NewPool()
+	cache, b := redismock.NewClientMock()
+	s.mockCache = b
 	db = s.mock
 	if err != nil {
 		s.T().Fatal(err)
 	}
-	s.repository = NewAdRepository(db)
+	s.repository = NewAdRepository(db, cache)
 }
 
 func (s *repositorySuite) TearDownTest() {
@@ -102,6 +108,12 @@ func (s *repositorySuite) TestGetAd() {
 		WithArgs(0, 10, 18, "M", "US", "ios").
 		WillReturnRows(rows)
 
+	key, _ := json.Marshal(request)
+	s.mockCache.ExpectGet(string(key)).RedisNil()
+	now := time.Now()
+	midnight := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
+	ttl := midnight.Sub(now)
+	s.mockCache.Regexp().ExpectSet(string(key), `.*`, ttl).SetVal("OK")
 	ads, err := s.repository.GetAd(request)
 	s.NoError(err)
 	s.Assert().Equal(2, len(ads.Items))

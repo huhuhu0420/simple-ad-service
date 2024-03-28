@@ -59,4 +59,5 @@ type AdRepository interface {
 	InsertPlatform(id int, platform []string) error
 	InsertGender(id int, gender []string) error
 	GetAd(searchAdRequest SearchAdRequest) (*AdsResponse, error)
+	InvalidateAllCache() error
 }

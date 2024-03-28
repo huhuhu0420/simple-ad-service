@@ -2,18 +2,22 @@ package repository
 
 import (
 	"context"
+	"encoding/json"
+	"time"
 
 	"github.com/huhuhu0420/simple-ad-service/db"
 	"github.com/huhuhu0420/simple-ad-service/domain"
+	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 )
 
 type adRepository struct {
-	db db.DB
+	db    db.DB
+	cache db.Cache
 }
 
-func NewAdRepository(db db.DB) domain.AdRepository {
-	return &adRepository{db}
+func NewAdRepository(db db.DB, redis db.Cache) domain.AdRepository {
+	return &adRepository{db, redis}
 }
 
 func (r *adRepository) InsertNewAd(title string, startAt string, endAt string) (int, error) {
@@ -74,6 +78,46 @@ func (r *adRepository) InsertGender(id int, gender []string) error {
 }
 
 func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
+	cachekey, _ := json.Marshal(searchAdRequest)
+	// Check if the ads is already in cache
+	cachedAds, err := r.cache.Get(context.Background(), string(cachekey)).Result()
+	if err == redis.Nil {
+		// If not, get the ads from DB
+		adsResponse, err := r.getAdFromDB(searchAdRequest)
+		if err != nil {
+			logrus.Error(err)
+			return nil, err
+		}
+		// Set the ads to cache with daily expiry
+		adsResponseBytes, _ := json.Marshal(adsResponse)
+		err = setWithDailyExpiry(r.cache, string(cachekey), adsResponseBytes)
+		if err != nil {
+			logrus.Error(err)
+			return nil, err
+		}
+		return adsResponse, nil
+	} else if err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
+	// If the ads is already in cache, return the ads
+	adResponse := &domain.AdsResponse{}
+	if err := json.Unmarshal([]byte(cachedAds), adResponse); err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
+	return adResponse, nil
+}
+
+func setWithDailyExpiry(rdb db.Cache, key string, value []byte) error {
+	now := time.Now()
+	midnight := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
+	ttl := midnight.Sub(now)
+
+	return rdb.Set(context.Background(), key, value, ttl).Err()
+}
+
+func (r *adRepository) getAdFromDB(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
 	adsResponse := &domain.AdsResponse{}
 	ad := &domain.Ad{}
 
@@ -95,4 +139,13 @@ func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.Ad
 	}
 
 	return adsResponse, nil
+}
+
+func (r *adRepository) InvalidateAllCache() error {
+	err := r.cache.FlushAll(context.Background()).Err()
+	if err != nil {
+		logrus.Error(err)
+		return err
+	}
+	return nil
 }

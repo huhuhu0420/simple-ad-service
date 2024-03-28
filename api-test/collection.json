@@ -1,0 +1,1476 @@
+{
+	"info": {
+		"_postman_id": "e9f47443-3b13-4898-8d7b-a2a61013679a",
+		"name": "sads",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23531552"
+	},
+	"item": [
+		{
+			"name": "badRequest",
+			"item": [
+				{
+					"name": "adminAPI",
+					"item": [
+						{
+							"name": "age-bad",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"conditions\": {\n    \"ageEnd\": 103,\n    \"ageStart\": 1,\n    \"country\": [\n      \"US\", \"TW\", \"JP\", \"HK\"\n    ],\n    \"gender\": [\n      \"M\",\"F\"\n    ],\n    \"platform\": [\n      \"Android\", \"Web\"\n    ]\n  },\n  \"endAt\": \"2024-12-04T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"1-17 US TW JP HK MF Android iOS Web\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "gender-bad",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"conditions\": {\n    \"ageEnd\": 17,\n    \"ageStart\": 1,\n    \"country\": [\n      \"US\", \"TW\", \"JP\", \"HK\"\n    ],\n    \"gender\": [\n      \"M\",\"P\"\n    ],\n    \"platform\": [\n      \"Android\", \"iOS\", \"Web\"\n    ]\n  },\n  \"endAt\": \"2024-12-04T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"1-17 US TW JP HK MF Android iOS Web\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "platform-bad",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"conditions\": {\n    \"ageEnd\": 17,\n    \"ageStart\": 1,\n    \"country\": [\n      \"US\", \"TW\", \"JP\", \"HK\"\n    ],\n    \"gender\": [\n      \"M\",\"F\"\n    ],\n    \"platform\": [\n      \"Android\", \"FreeBSD\"\n    ]\n  },\n  \"endAt\": \"2024-12-04T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"1-17 US TW JP HK MF Android iOS Web\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "publicAPI",
+					"item": [
+						{
+							"name": "limit-bad",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Limit=-1",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Limit",
+											"value": "-1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "goodRequest",
+			"item": [
+				{
+					"name": "adminAPI",
+					"item": [
+						{
+							"name": "age-condition",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"conditions\": {\n    \"ageEnd\": 65,\n    \"ageStart\": 18\n  },\n  \"endAt\": \"2024-12-02T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"18-65\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "all-condition-multi",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"conditions\": {\n    \"ageEnd\": 17,\n    \"ageStart\": 1,\n    \"country\": [\n      \"US\", \"TW\", \"JP\", \"HK\"\n    ],\n    \"gender\": [\n      \"M\",\"F\"\n    ],\n    \"platform\": [\n      \"Android\", \"iOS\", \"Web\"\n    ]\n  },\n  \"endAt\": \"2024-12-04T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"1-17 US TW JP HK MF Android iOS Web\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "no-condition",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"endAt\": \"2024-12-01T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"no condition\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "all-condition-single",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status code is 400\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"conditions\": {\n    \"ageEnd\": 17,\n    \"ageStart\": 1,\n    \"country\": [\n      \"US\"\n    ],\n    \"gender\": [\n      \"M\"\n    ],\n    \"platform\": [\n      \"Android\"\n    ]\n  },\n  \"endAt\": \"2024-12-03T00:00:00Z\",\n  \"startAt\": \"2024-01-01T00:00:00Z\",\n  \"title\": \"1-17 US M Android\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "publicAPI",
+					"item": [
+						{
+							"name": "age-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"responseData = JSON.stringify(responseData);",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.equal(JSON.stringify(expected))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Age=16",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Age",
+											"value": "16"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "country-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Country=JP",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Country",
+											"value": "JP"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "gender-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData.items).to.eql(expected.items);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Gender=F",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Gender",
+											"value": "F"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "limit-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-18 TW JP MF iOS Android\",",
+											"      \"endAt\": \"2024-05-31 23:05:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Limit=10",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multi-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Gender=F&Platform=Web&Country=TW&Age=18",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Gender",
+											"value": "F"
+										},
+										{
+											"key": "Platform",
+											"value": "Web"
+										},
+										{
+											"key": "Country",
+											"value": "TW"
+										},
+										{
+											"key": "Age",
+											"value": "18"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "no-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"responseData = JSON.stringify(responseData);",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.equal(JSON.stringify(expected));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "offset-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expectedData = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expectedData);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Offset=1",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Offset",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "platform-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Platform=Web",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Platform",
+											"value": "Web"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "publicAPI-copy",
+					"item": [
+						{
+							"name": "age-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"responseData = JSON.stringify(responseData);",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.equal(JSON.stringify(expected))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Age=16",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Age",
+											"value": "16"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "country-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Country=JP",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Country",
+											"value": "JP"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "gender-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData.items).to.eql(expected.items);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Gender=F",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Gender",
+											"value": "F"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "limit-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-18 TW JP MF iOS Android\",",
+											"      \"endAt\": \"2024-05-31 23:05:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Limit=10",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multi-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"Web\",",
+											"      \"endAt\": \"2024-08-31 23:08:59\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Gender=F&Platform=Web&Country=TW&Age=18",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Gender",
+											"value": "F"
+										},
+										{
+											"key": "Platform",
+											"value": "Web"
+										},
+										{
+											"key": "Country",
+											"value": "TW"
+										},
+										{
+											"key": "Age",
+											"value": "18"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "no-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"responseData = JSON.stringify(responseData);",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.equal(JSON.stringify(expected));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "127.0.0.1:5000/api/v1/ad"
+							},
+							"response": []
+						},
+						{
+							"name": "offset-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expectedData = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US M Android\",",
+											"      \"endAt\": \"2024-12-03 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expectedData);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Offset=1",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Offset",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "platform-query",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseData = pm.response.json();",
+											"let expected = {",
+											"  \"items\": [",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-45 HK TW F Android Web\",",
+											"      \"endAt\": \"2024-12-31 23:12:59\"",
+											"    },",
+											"    {",
+											"      \"title\": \"1-17 US TW JP HK MF Android iOS Web\",",
+											"      \"endAt\": \"2024-12-04 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"18-65\",",
+											"      \"endAt\": \"2024-12-02 00:12:00\"",
+											"    },",
+											"    {",
+											"      \"title\": \"no condition\",",
+											"      \"endAt\": \"2024-12-01 00:12:00\"",
+											"    }",
+											"  ]",
+											"}",
+											"",
+											"pm.test(\"status code is 200\", function() {",
+											"  pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"response body is correct\", function() {",
+											"  pm.expect(responseData).to.eql(expected);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:5000/api/v1/ad?Platform=Web",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"ad"
+									],
+									"query": [
+										{
+											"key": "Platform",
+											"value": "Web"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "test-cache",
+					"item": []
+				}
+			]
+		}
+	]
+}
