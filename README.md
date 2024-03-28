@@ -23,6 +23,10 @@ Go to http://localhost:5000/swagger/index.html can see swagger api document.
 
 ### Project Explanation
 
+#### Project Structure
+
+![Project Structure](./docs/arch.png)
+
 #### Golang Server
 
 The server is built with Golang, and it uses `gin` as the web framework. The server provides two APIs:
