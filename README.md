@@ -34,8 +34,8 @@ The server is built with Golang, and it uses `gin` as the web framework. The ser
 `/ad POST`: create an ad
 - the request body should be a JSON object, and the JSON object should contain the following fields:
   - title: string
-  - startAt: string (in the format of "YYYY-MM-DD")
-  - endAr: string (in the format of "YYYY-MM-DD")
+  - startAt: string (in the format of "YYYY-MM-DD:HH:mm:ss")
+  - endAr: string (in the format of "YYYY-MM-DD:HH:mm:ss")
   - conditions: object (optional)
     - ageStart: int
     - ageEnd: int
