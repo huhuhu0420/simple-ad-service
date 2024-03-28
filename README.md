@@ -77,7 +77,14 @@ The cache is built with Redis, and it caches the query for key and the response 
 
 ### Testing
 
-The project contains unit tests and API tests.
+The project contains unit tests and API tests, both of them will be run in github actions
+
+unit tests is built with go test, and it can be run with the following command:
+```sh
+go test -v ./...
+```
+
+API tests is built with postman collection, and test with newman in github actions.
 
 ### k8s
 
