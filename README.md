@@ -106,7 +106,27 @@ tools: github actions
 - test: using go test for unit test
 - build: using docker-compose
 - api test: using newman
-- deploy: deploy to GKE
+
+### Performance
+
+#### Load Test
+
+Server Hardware:
+- CPU: Intel i5-13400
+- Memory: 32GB
+
+Test Tool: k6
+
+Test Command:
+
+```sh
+k6 k6/rps.js
+```
+![](docs/rps.png)
+
+The C10k problem is difficult to test since it depends on the server hardware and the network environment.
+
+Though my server can only handle 8900 RPS, I believe that the server can handle 10k RPS with better hardware and network environment.
 
 ### Improvement
 
