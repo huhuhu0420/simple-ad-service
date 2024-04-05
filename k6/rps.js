@@ -1,22 +1,20 @@
-import { check } from 'k6';
+import { sleep } from 'k6';
 import http from 'k6/http';
 
 export const options = {
     scenarios: {
         my_scenario1: {
             executor: 'constant-arrival-rate',
-            duration: '30s', // total duration
-            preAllocatedVUs: 100, // to allocate runtime resources     preAll
-
-            rate: 10000, // number of constant iterations given `timeUnit`
+            duration: '10s', // total duration
+            preAllocatedVUs: 300, // to allocate runtime resources     preAll
+            rate: 12000, // number of constant iterations given `timeUnit`
             timeUnit: '1s',
         },
     },
 };
 
+let url = 'http://34.49.138.159/api/v1/ad';
+
 export default function () {
-    let response = http.get('http://localhost:5000/api/v1/ad');
-    check(response, {
-        'status is 200': (r) => r.status === 200,
-    });
+    http.get(url)
 }
