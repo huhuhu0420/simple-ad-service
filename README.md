@@ -100,6 +100,21 @@ K8s deployment files:
 - `postgres-db-pvc.yaml`: the persistent volume claim file for the postgreSQL
 - `postgres-db-pv.yaml`: the persistent volume file for the postgreSQL
 
+The deployment files are built with the following steps:
+1. Build the docker image
+2. Push the docker image to the docker hub
+3. Update the image in the deployment files
+4. Apply the deployment files to the k8s cluster
+
+### GKE
+
+The project is deployed to GKE, and the service is exposed with the ingress.
+
+The ingress ip: 34.49.138.159 (may be expired)
+
+![](docs/gke.png)
+
+
 ### CI/CD
 tools: github actions
 - lint: using golangci-lint
