@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"time"
 
 	"github.com/huhuhu0420/simple-ad-service/db"
 	"github.com/huhuhu0420/simple-ad-service/domain"
@@ -13,10 +13,10 @@ import (
 
 type adRepository struct {
 	db    db.DB
-	cache redis.Client
+	cache db.Cache
 }
 
-func NewAdRepository(db db.DB, redis redis.Client) domain.AdRepository {
+func NewAdRepository(db db.DB, redis db.Cache) domain.AdRepository {
 	return &adRepository{db, redis}
 }
 
@@ -88,8 +88,9 @@ func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.Ad
 			logrus.Error(err)
 			return nil, err
 		}
+		// Set the ads to cache with daily expiry
 		adsResponseBytes, _ := json.Marshal(adsResponse)
-		err = r.cache.Set(context.Background(), string(cachekey), adsResponseBytes, 0).Err()
+		err = setWithDailyExpiry(r.cache, string(cachekey), adsResponseBytes)
 		if err != nil {
 			logrus.Error(err)
 			return nil, err
@@ -101,8 +102,19 @@ func (r *adRepository) GetAd(searchAdRequest domain.SearchAdRequest) (*domain.Ad
 	}
 	// If the ads is already in cache, return the ads
 	adResponse := &domain.AdsResponse{}
-	json.Unmarshal([]byte(cachedAds), adResponse)
+	if err := json.Unmarshal([]byte(cachedAds), adResponse); err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
 	return adResponse, nil
+}
+
+func setWithDailyExpiry(rdb db.Cache, key string, value []byte) error {
+	now := time.Now()
+	midnight := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
+	ttl := midnight.Sub(now)
+
+	return rdb.Set(context.Background(), key, value, ttl).Err()
 }
 
 func (r *adRepository) getAdFromDB(searchAdRequest domain.SearchAdRequest) (*domain.AdsResponse, error) {
@@ -129,105 +141,11 @@ func (r *adRepository) getAdFromDB(searchAdRequest domain.SearchAdRequest) (*dom
 	return adsResponse, nil
 }
 
-func (r *adRepository) InvalidatePlatformCache(platform []string) error {
-	r.InvalidateNoConditionCache("platform")
-	for _, p := range platform {
-		pattern := fmt.Sprintf("*%s*", p)
-		keys, err := r.cache.Keys(context.Background(), pattern).Result()
-		if err != nil {
-			logrus.Error(err)
-			return err
-		}
-		for _, k := range keys {
-			err := r.cache.Del(context.Background(), k).Err()
-			if err != nil {
-				logrus.Error(err)
-				return err
-			}
-		}
-	}
-	return nil
-}
-
-func (r *adRepository) InvalidateGenderCache(gender []string) error {
-	for _, g := range gender {
-		pattern := fmt.Sprintf("*%s*", g)
-		keys, err := r.cache.Keys(context.Background(), pattern).Result()
-		if err != nil {
-			logrus.Error(err)
-			return err
-		}
-		for _, k := range keys {
-			err := r.cache.Del(context.Background(), k).Err()
-			if err != nil {
-				logrus.Error(err)
-				return err
-			}
-		}
-	}
-	return nil
-}
-
-func (r *adRepository) InvalidateCountryCache(country []string) error {
-	for _, c := range country {
-		pattern := fmt.Sprintf("*%s*", c)
-		keys, err := r.cache.Keys(context.Background(), pattern).Result()
-		if err != nil {
-			logrus.Error(err)
-			return err
-		}
-		for _, k := range keys {
-			err := r.cache.Del(context.Background(), k).Err()
-			if err != nil {
-				logrus.Error(err)
-				return err
-			}
-		}
-	}
-	return nil
-}
-
-func (r *adRepository) InvalidateAgeCache(ageStart int, ageEnd int) error {
-	r.InvalidateNoConditionCache("age")
-	pattern := "*age\":[1-9]*"
-	keys, err := r.cache.Keys(context.Background(), pattern).Result()
+func (r *adRepository) InvalidateAllCache() error {
+	err := r.cache.FlushAll(context.Background()).Err()
 	if err != nil {
 		logrus.Error(err)
 		return err
-	}
-	for _, k := range keys {
-		searchRequest := domain.SearchAdRequest{}
-		json.Unmarshal([]byte(k), &searchRequest)
-		if searchRequest.Age >= ageStart && searchRequest.Age <= ageEnd {
-			err := r.cache.Del(context.Background(), k).Err()
-			if err != nil {
-				logrus.Error(err)
-				return err
-			}
-		}
-	}
-	return nil
-}
-
-func (r *adRepository) InvalidateNoConditionCache(condition string) error {
-	pattern := ""
-	if condition == "age" {
-		pattern = "*age\":0*"
-	} else {
-		pattern = fmt.Sprintf("*%s\":\"\"*", condition)
-	}
-	keys, err := r.cache.Keys(context.Background(), pattern).Result()
-	if err != nil {
-		logrus.Error(err)
-		return err
-	}
-	for _, k := range keys {
-		logrus.Info(k)
-		err := r.cache.Del(context.Background(), k).Err()
-		if err != nil {
-			logrus.Error(err)
-			return err
-		}
 	}
 	return nil
 }

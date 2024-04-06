@@ -59,7 +59,7 @@ func main() {
 
 	r := SetRouter()
 
-	adRepo := _adRepository.NewAdRepository(pgdb, *rdb)
+	adRepo := _adRepository.NewAdRepository(pgdb, rdb)
 	adService := _adService.NewAdService(adRepo)
 	_adHandler.NewAdHandler(r, adService)
 
