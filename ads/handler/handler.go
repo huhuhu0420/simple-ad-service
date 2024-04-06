@@ -23,6 +23,7 @@ func NewAdHandler(e *gin.Engine, service domain.AdService) {
 		v1.POST("/ad", handler.CreateAd)
 		v1.GET("/ad", handler.GetAd)
 	}
+	e.GET("/", handler.home)
 }
 
 // CreateAd godoc
@@ -91,6 +92,10 @@ func (ah *AdHandler) GetAd(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, adResponse)
+}
+
+func (ah *AdHandler) home(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"message": "Welcome to Simple Ad Service"})
 }
 
 func validateQuery(searchAdRequest *domain.SearchAdRequest) error {

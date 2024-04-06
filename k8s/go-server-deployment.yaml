@@ -5,7 +5,7 @@ metadata:
   labels:
     app: go-server
 spec:
-  replicas: 10
+  replicas: 3
   selector:
     matchLabels:
       app: go-server
@@ -15,10 +15,14 @@ spec:
         app: go-server
     spec:
       containers:
-      - image: huhuhu0420/go-server:version0.1test
+      - image: huhuhu0420/go-server:latest
         name: go-server
         ports:
         - containerPort: 5000
         env:
         - name: PG_HOST
           value: postgres-db
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
