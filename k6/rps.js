@@ -5,15 +5,15 @@ export const options = {
     scenarios: {
         my_scenario1: {
             executor: 'constant-arrival-rate',
-            duration: '10s', // total duration
-            preAllocatedVUs: 300, // to allocate runtime resources     preAll
-            rate: 12000, // number of constant iterations given `timeUnit`
+            duration: '13s', // total duration
+            preAllocatedVUs: 250, // to allocate runtime resources  
+            rate: 9000, // number of constant iterations given `timeUnit`
             timeUnit: '1s',
         },
     },
 };
 
-let url = 'http://34.49.138.159/api/v1/ad';
+let url = 'http://localhost:5000/api/v1/ad';
 
 export default function () {
     http.get(url)
