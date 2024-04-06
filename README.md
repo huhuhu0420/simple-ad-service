@@ -112,21 +112,20 @@ tools: github actions
 #### Load Test
 
 Server Hardware:
-- CPU: Intel i5-13400
-- Memory: 32GB
+- CPU: Intel i5-8265U
+- Memory: 16GB
 
 Test Tool: k6
 
 Test Command:
 
 ```sh
-k6 k6/rps.js
+k6 run k6/rps.js
 ```
-![](docs/rps.png)
+![](docs/c10k.png)
 
-The C10k problem is difficult to test since it depends on the server hardware and the network environment.
+Server can handle 10k rps in local environment.
 
-Though my server can only handle 8900 RPS, I believe that the server can handle 10k RPS with better hardware and network environment.
 
 ### Improvement
 
