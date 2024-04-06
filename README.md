@@ -131,3 +131,8 @@ Server can handle 10k rps in local environment.
 
 #### Cache
 In my opinion, I believe that cache technology is not suitable for this project. This is because the data is updated too frequently, leading to frequent cache invalidation. Furthermore, the complexity of the query conditions makes it easy to encounter cache misses.
+
+#### High Availability Database
+
+[HA](https://www.percona.com/blog/the-ultimate-guide-to-database-high-availability/)
+Interesting topic, but no time to implement it.
