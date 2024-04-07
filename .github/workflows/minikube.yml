@@ -20,9 +20,11 @@ jobs:
         docker tag go-server huhuhu0420/go-server:latest
         echo -n "verifying images:"
         docker image ls       
-    - name: Deploy to minikube
+    - name: enable ingress
       run:
         minikube addons enable ingress
+    - name: Deploy to minikube
+      run:
         kubectl create -f .
       working-directory: k8s
     - name: Test service URLs
