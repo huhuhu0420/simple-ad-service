@@ -27,6 +27,6 @@ jobs:
     - name: Test service URLs
       run: |
         minikube service list
-        minikube get ing
+        kubectl get ing
         echo "------------------opening the service------------------"
         curl sads.info       
