@@ -1,0 +1,32 @@
+name: CI
+on:
+  - pull_request
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    name: build example and deploy to minikube
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Try the cluster !
+      run: kubectl get pods -A
+    - name: Build image
+      run: |
+        export SHELL=/bin/bash
+        eval $(minikube -p minikube docker-env)
+        docker build . -t go-server
+        docker tag go-server huhuhu0420/go-server:latest
+        echo -n "verifying images:"
+        docker images        
+    - name: Deploy to minikube
+      run:
+        kubectl create -f .
+      working-directory: k8s
+    - name: Test service URLs
+      run: |
+        minikube service list
+        minikube service example --url
+        minikube get ing
+        echo "------------------opening the service------------------"
+        curl sads.info       
