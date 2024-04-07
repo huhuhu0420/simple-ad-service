@@ -124,6 +124,7 @@ The database is built with postgreSQL, and it contains six tables:
 | integer | varchar(10) |
 
 ##### countries
+include country code in ISO 3166-1 alpha-2 format
 | code | 
 | --- |
 | char(2) |
