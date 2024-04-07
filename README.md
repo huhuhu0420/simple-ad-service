@@ -225,3 +225,7 @@ Interesting topic, but no time to implement it.
 #### Helm
 
 Helm is a package manager for k8s, and it can be used to manage the k8s deployment files.
+
+#### CD Pipeline on GKE
+
+The CD pipeline can be built with GKE, and it can be triggered by the github actions.
