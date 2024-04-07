@@ -16,12 +16,10 @@ jobs:
       run: kubectl get nodes
     - name: Build image
       run: |
-        export SHELL=/bin/bash
-        eval $(minikube -p minikube docker-env)
         docker build . -t go-server
         docker tag go-server huhuhu0420/go-server:latest
         echo -n "verifying images:"
-        docker images        
+        docker image ls       
     - name: Deploy to minikube
       run:
         kubectl create -f .
