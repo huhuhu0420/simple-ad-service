@@ -24,9 +24,7 @@ jobs:
       run:
         kubectl create -f .
       working-directory: k8s
-    - name: Test service URLs
+    - name: Test service 
       run: |
         minikube service list
-        minikube service go-server --url
-        echo "------------------opening the service------------------"
-        curl $(minikube service go-server --url)
+        kubeclt get ingress
