@@ -20,9 +20,6 @@ jobs:
         docker tag go-server huhuhu0420/go-server:latest
         echo -n "verifying images:"
         docker image ls       
-    - name: enable ingress
-      run:
-        minikube addons enable ingress
     - name: Deploy to minikube
       run:
         kubectl create -f .
@@ -30,10 +27,6 @@ jobs:
     - name: Test service URLs
       run: |
         minikube service list
-        kubectl get ing
-        MINIKUBE_IP=$(minikube ip)
-        sudo sh -c "echo $MINIKUBE_IP sads.info >> /etc/hosts"
+        minikube service go-server --url
         echo "------------------opening the service------------------"
-        for i in {1..10}; do
-            curl -f -v -s --retry 10 --retry-connrefused sads.info && break || sleep 5;
-        done
+        curl $(minikube service go-server --url)
