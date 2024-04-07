@@ -27,4 +27,4 @@ jobs:
     - name: Test service 
       run: |
         minikube service list
-        kubeclt get ingress
+        kubectl get ingress
