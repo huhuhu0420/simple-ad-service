@@ -164,6 +164,8 @@ K8s deployment files:
 - `postgres-db-service.yaml`: the service file for the postgreSQL
 - `postgres-db-pvc.yaml`: the persistent volume claim file for the postgreSQL
 - `postgres-db-pv.yaml`: the persistent volume file for the postgreSQL
+- `redis-deployment.yaml`: the deployment file for the Redis
+- `redis-service.yaml`: the service file for the Redis
 
 The deployment files are built with the following steps:
 1. Build the docker image
