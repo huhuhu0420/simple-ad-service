@@ -32,4 +32,6 @@ jobs:
         MINIKUBE_IP=$(minikube ip)
         sudo sh -c "echo $MINIKUBE_IP sads.info >> /etc/hosts"
         echo "------------------opening the service------------------"
-        curl sads.info       
+        for i in {1..10}; do
+            curl -f -v -s --retry-connrefused sads.info && break || sleep 5;
+        done
