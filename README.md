@@ -29,6 +29,15 @@ Go to http://localhost:5000/swagger/index.html can see swagger api document.
 
 #### Golang Server
 
+The project stucture follows the clean architecture, and the main components are:
+- `ads/handler`: contains the API handlers
+- `ads/service`: contains the business logic
+- `ads/repository`: contains the data access logic
+- `domain`: contains the data models
+- `db`: contains the database connection
+
+Using `pgx` as the database driver, and `pgpool` as the connection pool.
+
 The server is built with Golang, and it uses `gin` as the web framework. The server provides two APIs:
 
 `/ad POST`: create an ad
@@ -84,15 +93,6 @@ curl -X 'GET' \
   'http://localhost:5000/api/v1/ad?Limit=3&Age=18&Gender=F&Country=TW&Platform=Android' \
   -H 'accept: application/json'
 ```
-
-The project stucture follows the clean architecture, and the main components are:
-- `ads/handler`: contains the API handlers
-- `ads/service`: contains the business logic
-- `ads/repository`: contains the data access logic
-- `domain`: contains the data models
-- `db`: contains the database connection
-
-Using `pgx` as the database driver, and `pgpool` as the connection pool.
 
 #### Database
 
@@ -189,6 +189,7 @@ tools: github actions
 - test: using go test for unit test
 - build: using docker-compose
 - api test: using newman
+- deploy: using kubectl deploy on minikube
 
 ### Performance
 
@@ -218,8 +219,13 @@ In my opinion, I believe that cache technology is not suitable for this project.
 #### High Availability Database
 
 [HA](https://www.percona.com/blog/the-ultimate-guide-to-database-high-availability/)
+
 Interesting topic, but no time to implement it.
 
 #### Helm
 
 Helm is a package manager for k8s, and it can be used to manage the k8s deployment files.
+
+#### CD Pipeline on GKE
+
+The CD pipeline can be built with GKE, and it can be triggered by the github actions.
