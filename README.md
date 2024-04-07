@@ -50,6 +50,41 @@ The server is built with Golang, and it uses `gin` as the web framework. The ser
     - Gender: string
     - Platform: string
 
+```sh
+# examples
+
+# admin api
+
+curl -X 'POST' \
+  'http://localhost:5000/api/v1/ad' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "conditions": {
+    "ageEnd": 65,
+    "ageStart": 18,
+    "country": [
+      "US"
+    ],
+    "gender": [
+      "M"
+    ],
+    "platform": [
+      "Android"
+    ]
+  },
+  "endAt": "2023-12-01T00:00:00Z",
+  "startAt": "2023-01-01T00:00:00Z",
+  "title": "Ad title"
+}'
+
+# public api
+
+curl -X 'GET' \
+  'http://localhost:5000/api/v1/ad?Limit=3&Age=18&Gender=F&Country=TW&Platform=Android' \
+  -H 'accept: application/json'
+```
+
 The project stucture follows the clean architecture, and the main components are:
 - `ads/handler`: contains the API handlers
 - `ads/service`: contains the business logic
@@ -95,20 +130,26 @@ The database is built with postgreSQL, and it contains six tables:
 
 #### Cache
 
-Though I implemented the cache feature, there's a issue mentioned in [issue](#improvement).
+Though I implemented the cache feature, there's a issue mentioned in [improvement](#improvement).
 
-The cache is built with Redis, and it caches the query for key and the response for value.
+The cache is built with Redis, and it caches the `query` for key and the `response` for value.
 
 ### Testing
 
 The project contains unit tests and API tests, both of them will be run in github actions
 
-unit tests is built with go test, and it can be run with the following command:
+#### unit tests
+
+Unit tests is built with go test, and it can be run with the following command:
 ```sh
 go test -v ./...
 ```
 
-API tests is built with postman collection, and test with newman in github actions.
+Using mockery to generate the mock files for the tests, the files are in `domain/mocks/`.
+
+#### API tests
+
+API tests is built with postman collection, the file is in `api-test/collection.json`
 
 ### k8s
 
@@ -133,7 +174,10 @@ The deployment files are built with the following steps:
 
 The project is deployed on GKE, and the service is exposed with the ingress.
 
-The ingress ip: 34.49.138.159 (may be expired)
+The ingress ip: 34.49.138.159 (may be expired), and the service can be accessed with the following url:
+```sh
+http://34.49.138.159/api/v1/ad
+```
 
 ![](docs/gke.png)
 
@@ -174,3 +218,7 @@ In my opinion, I believe that cache technology is not suitable for this project.
 
 [HA](https://www.percona.com/blog/the-ultimate-guide-to-database-high-availability/)
 Interesting topic, but no time to implement it.
+
+#### Helm
+
+Helm is a package manager for k8s, and it can be used to manage the k8s deployment files.
