@@ -62,13 +62,36 @@ Using `pgx` as the database driver, and `pgpool` as the connection pool.
 #### Database
 
 The database is built with postgreSQL, and it contains six tables:
-- `ads`: contains the ad information, including the ad id, ad title, start date and end date
-- `ad_ages`: contains the ad age information
-- `ad_genders`: contains the ad gender information
-- `ad_platforms`: contains the ad platform information
-- `ad_countries`: contains the ad country information
-- `countries`: contains country code in ISO 3166-1 alpha-2
 
+##### ads
+| id | title | start_at | end_at | 
+| --- | --- | --- | --- |
+| serial | string | timestamp | timestamp |
+
+##### ad_ages
+| ad_id | age_start | age_end |
+| --- | --- | --- |
+| integer | integer | integer |
+
+##### ad_countries
+| ad_id | country_code |
+| --- | --- |
+| integer | char(2) |
+
+##### ad_genders
+| ad_id | gender |
+| --- | --- |
+| integer | char(1) |
+
+##### ad_platforms
+| ad_id | platform |
+| --- | --- |
+| integer | varchar(10) |
+
+##### countries
+| code | 
+| --- |
+| char(2) |
 
 #### Cache
 
@@ -108,7 +131,7 @@ The deployment files are built with the following steps:
 
 ### GKE
 
-The project is deployed to GKE, and the service is exposed with the ingress.
+The project is deployed on GKE, and the service is exposed with the ingress.
 
 The ingress ip: 34.49.138.159 (may be expired)
 
