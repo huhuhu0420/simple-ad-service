@@ -33,5 +33,6 @@ jobs:
         sudo sh -c "echo $MINIKUBE_IP sads.info >> /etc/hosts"
         echo "------------------opening the service------------------"
         for i in {1..10}; do
-            curl -f -v -s --retry-connrefused sads.info && break || sleep 5;
+            curl -f -v -s --retry 10 --retry-connrefused sads.info && break || sleep 5;
+            kubeclt get ing
         done
