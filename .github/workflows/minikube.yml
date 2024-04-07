@@ -26,6 +26,7 @@ jobs:
       working-directory: k8s
     - name: Test service URLs
       run: |
+        minikube addons enable ingress
         minikube service list
         kubectl get ing
         MINIKUBE_IP=$(minikube ip)
