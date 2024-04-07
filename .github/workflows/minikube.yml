@@ -28,5 +28,6 @@ jobs:
       run: |
         minikube service list
         kubectl get ing
+        sudo echo $(minikube ip) sads.info >> /etc/hosts
         echo "------------------opening the service------------------"
         curl sads.info       
